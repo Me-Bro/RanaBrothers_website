@@ -1,0 +1,13 @@
+#!/bin/sh
+# Blocks pushes containing denylisted terms or non-allowlisted commit identities.
+# stdin lines: <local ref> <local sha> <remote ref> <remote sha>
+zero=0000000000000000000000000000000000000000
+while read -r _lref lsha _rref rsha; do
+  [ "$lsha" = "$zero" ] && continue
+  if [ "$rsha" = "$zero" ]; then
+    node scripts/brand-guard.mjs commits "$lsha" --not --remotes || exit 1
+  else
+    node scripts/brand-guard.mjs commits "$rsha..$lsha" || exit 1
+  fi
+done
+exit 0

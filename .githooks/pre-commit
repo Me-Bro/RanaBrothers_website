@@ -1,0 +1,3 @@
+#!/bin/sh
+# Blocks commits whose staged content or file names contain denylisted terms.
+node scripts/brand-guard.mjs staged || exit 1

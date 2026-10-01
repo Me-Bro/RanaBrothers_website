@@ -5,8 +5,12 @@
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
     "build": "cross-env NEXT_OUTPUT_EXPORT=1 next build",
+    "postbuild": "node scripts/brand-guard.mjs files out",
     "lint": "eslint . --max-warnings=0",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/guard/brand-guard.test.mjs tests/guard/brand-guard.git.test.mjs tests/guard/setup-hooks.test.mjs",
+    "guard": "node scripts/brand-guard.mjs files",
+    "prepare": "node scripts/setup-hooks.mjs"
   },
   "dependencies": {
     "next": "16.3.8",
