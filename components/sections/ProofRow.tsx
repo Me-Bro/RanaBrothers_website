@@ -6,9 +6,9 @@ export function ProofRow() {
   return (
     <section aria-label="Proof" className="border-t border-hairline">
       <Container>
-        <ul className="grid divide-y divide-hairline sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+        <ul className="grid divide-y divide-hairline lg:grid-cols-4 lg:divide-x lg:divide-y-0">
           {proof.map((item) => (
-            <li key={item.label} className="py-7 sm:px-8 sm:first:pl-0">
+            <li key={item.label} className="py-7 lg:px-8 lg:first:pl-0">
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold">
                 {item.href ? <TextLink href={item.href}>{item.label}</TextLink> : item.label}
               </p>

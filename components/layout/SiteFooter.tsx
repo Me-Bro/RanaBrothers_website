@@ -8,6 +8,7 @@ import { site } from '@/lib/site';
 const PRODUCTS = [
   { label: 'DuSu', href: 'https://dusu.ranabrothers.online' },
   { label: 'Edge Verify', href: 'https://ranabrothers.online/edgeverify/' },
+  { label: 'RootEd', href: 'https://rooted.ranabrothers.online' },
 ];
 
 export function SiteFooter() {

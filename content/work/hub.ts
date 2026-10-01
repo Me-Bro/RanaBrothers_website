@@ -15,22 +15,28 @@ export const workHub: HubContent = {
       ],
     },
     {
+      title: 'Other products we have built',
+      body: [
+        'Vibhanshu built two more products that do not have case studies yet. CloudDocSense is a retrieval-augmented document-intelligence system: it answers questions from a set of documents and shows the sources behind each answer. RootEd is a multi-tenant school management platform, one platform serving many schools, built with React, Node.js, MongoDB and Docker, and it is live at rooted.ranabrothers.online. Ask us about either on a call.',
+      ],
+    },
+    {
       title: 'Why the case studies are about our own products',
       body: [
         // VERIFY: confirm past client engagements a prospect could be referred to
         'Because the products are ours, we can publish the architecture, the decisions and the numbers in full, including the trade-offs and the problems that are still open. Client work is usually covered by confidentiality, so we publish a client case study only with the client’s written permission.',
-        'On a call we can talk through work similar to yours within those limits, and show the products running. Both are live: DuSu at dusu.ranabrothers.online and Edge Verify, in beta, at ranabrothers.online/edgeverify.',
+        'On a call we can talk through work similar to yours within those limits, and show the products running. These are live: DuSu at dusu.ranabrothers.online, Edge Verify, in beta, at ranabrothers.online/edgeverify, and RootEd at rooted.ranabrothers.online.',
       ],
     },
   ],
   faqs: [
     {
       q: 'Can I see the products running?',
-      a: 'Yes. DuSu is live at dusu.ranabrothers.online, and Edge Verify runs in beta at ranabrothers.online/edgeverify. Each case study links to its product, so you can compare what we wrote with what we shipped.',
+      a: 'Yes. DuSu is live at dusu.ranabrothers.online, Edge Verify runs in beta at ranabrothers.online/edgeverify, and RootEd is live at rooted.ranabrothers.online. Each case study links to its product, so you can compare what we wrote with what we shipped.',
     },
     {
       q: 'Do you build products like these for clients?',
-      a: 'Yes. The same work is available to clients: AI apps and language-model features, as in DuSu, and data-heavy custom software with strict correctness rules, as in Edge Verify. The services and AI pages describe how each kind of engagement works.',
+      a: 'Yes. The same work is available to clients: AI apps and language-model features, as in DuSu, data-heavy custom software with strict correctness rules, as in Edge Verify, and multi-tenant web platforms, as in RootEd. The services and AI pages describe how each kind of engagement works.',
     },
     {
       q: 'Who wrote these case studies?',
