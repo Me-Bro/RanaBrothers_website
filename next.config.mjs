@@ -13,6 +13,8 @@ const securityHeaders = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Stop `next dev` from writing AGENTS.md/CLAUDE.md into the repo when run from an AI agent's shell.
+  agentRules: false,
   ...(process.env.NEXT_OUTPUT_EXPORT === '1'
     ? { output: 'export' }
     : { headers: async () => [{ source: '/:path*', headers: securityHeaders }] }),
