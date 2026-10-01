@@ -1,3 +1,120 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: theme('colors.bg');
+    color: theme('colors.fg');
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply min-h-screen bg-bg font-sans text-fg antialiased;
+  }
+
+  ::selection {
+    background-color: theme('colors.gold');
+    color: theme('colors.on-gold');
+  }
+
+  :focus-visible {
+    outline: 2px solid theme('colors.gold');
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* One soft champagne glow, used at most once per hero or CTA band. */
+  .glow-gold {
+    background-image: radial-gradient(60% 70% at 75% 35%, rgba(216, 182, 118, 0.1), transparent 70%);
+  }
+
+  /* Film grain for the hero only (static SVG noise, 4% opacity). */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-[0.2em] text-muted;
+  }
+
+  .card {
+    @apply rounded-2xl border border-hairline bg-surface transition-[transform,border-color] duration-300;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-0.5 hover:border-gold/40;
+  }
+
+  /* Long-form article and policy text (rendered Markdown and legal pages). */
+  .prose-rb {
+    @apply max-w-measure text-[17px] leading-relaxed text-fg/90;
+  }
+  .prose-rb > * + * {
+    @apply mt-5;
+  }
+  .prose-rb h2 {
+    @apply mt-14 scroll-mt-24 text-2xl font-semibold tracking-tight text-fg sm:text-3xl;
+  }
+  .prose-rb h3 {
+    @apply mt-10 scroll-mt-24 text-xl font-semibold tracking-tight text-fg;
+  }
+  .prose-rb a {
+    @apply text-gold underline decoration-gold/40 underline-offset-4 hover:decoration-gold;
+  }
+  .prose-rb strong {
+    @apply font-semibold text-fg;
+  }
+  .prose-rb ul {
+    @apply list-disc space-y-2 pl-6 marker:text-gold;
+  }
+  .prose-rb ol {
+    @apply list-decimal space-y-2 pl-6 marker:font-mono marker:text-gold;
+  }
+  .prose-rb blockquote {
+    @apply rounded-2xl border border-gold/30 bg-gold-soft/60 px-6 py-5 text-fg;
+  }
+  .prose-rb blockquote p {
+    @apply m-0;
+  }
+  .prose-rb code {
+    @apply rounded bg-surface-2 px-1.5 py-0.5 font-mono text-[0.9em];
+  }
+  .prose-rb hr {
+    @apply my-12 border-hairline;
+  }
+  .prose-rb table {
+    @apply block w-full overflow-x-auto border-collapse text-left text-[15px];
+  }
+  .prose-rb th {
+    @apply border-b border-hairline bg-surface px-4 py-3 font-mono text-xs uppercase tracking-wider text-muted;
+  }
+  .prose-rb td {
+    @apply border-b border-hairline px-4 py-3 align-top;
+  }
+}
