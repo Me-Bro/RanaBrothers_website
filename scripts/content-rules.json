@@ -1,0 +1,8 @@
+{
+  "topics": {
+    "error": ["internship", "internships", "intern", "interns", "bootcamp", "bootcamps", "fellowship", "trainee", "trainees"],
+    "warn": ["students"]
+  },
+  "marketingWords": ["passionate", "visionary", "world-class", "guru", "ninja", "rockstar", "innovative", "cutting-edge", "game-changing", "revolutionary", "10x"],
+  "verifyMarker": "VERIFY:"
+}
