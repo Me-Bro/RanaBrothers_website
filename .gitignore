@@ -1,0 +1,17 @@
+node_modules/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
+.lighthouseci/
+.vercel/
+.wrangler/
+.superpowers/
+.env*
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+Thumbs.db
+_private/
+*.private.md
