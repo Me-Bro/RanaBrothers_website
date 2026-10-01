@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Post-build SEO gate: checks every exported HTML page in out/ against the page registry
-// (out/registry.json, emitted at build time) and the site-wide files. Exit 1 on any problem.
+// (content/registry.ts, imported directly: Node 24 strips the types) and the site-wide files. Exit 1 on any problem.
 import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -24,6 +24,7 @@ export const MIN_WORDS = {
 export const absoluteUrl = (path) => (path === '/' ? SITE_URL : `${SITE_URL}${path}`);
 export const htmlFileFor = (path) => (path === '/' ? 'index.html' : `${path.slice(1)}.html`);
 const norm = (s) => s.replace(/\s+/g, ' ').trim();
+const isFile = (p) => existsSync(p) && statSync(p).isFile();
 const stripOrigin = (url) => url.replace(SITE_URL, '').split(/[?#]/)[0] || '/';
 
 /**
@@ -81,7 +82,7 @@ export function checkPage(html, ctx) {
       registryPaths.has(target) ||
       externalPaths.has(target) ||
       target.startsWith('/_next/') ||
-      existsSync(join(outDir, target));
+      isFile(join(outDir, target));
     if (!ok) fail(`internal link ${href} does not resolve`);
   }
 
@@ -101,12 +102,9 @@ function htmlFiles(dir) {
   });
 }
 
-/** Problems across the whole export in outDir. */
-export function checkSite(outDir, externalPaths = new Set()) {
+/** Problems across the whole export in outDir, checked against the registry's pages. */
+export function checkSite(outDir, pages, externalPaths = new Set()) {
   const problems = [];
-  const registryFile = join(outDir, 'registry.json');
-  if (!existsSync(registryFile)) return ['out/registry.json is missing (did the build run?)'];
-  const pages = JSON.parse(readFileSync(registryFile, 'utf8'));
   const registryPaths = new Set(pages.map((p) => p.path));
 
   for (const entry of pages) {
@@ -171,8 +169,9 @@ function isMainModule() {
 }
 
 if (isMainModule()) {
+  const { pages } = await import(new URL('../content/registry.ts', import.meta.url).href);
   const { externalUrls } = await import(new URL('../content/external-urls.ts', import.meta.url).href);
-  const problems = checkSite(join(process.cwd(), 'out'), new Set(externalUrls.map((u) => u.path)));
+  const problems = checkSite(join(process.cwd(), 'out'), pages, new Set(externalUrls.map((u) => u.path)));
   for (const p of problems) console.error(`seo  ${p}`);
   console.log(problems.length ? `check-seo: ${problems.length} problem(s)` : 'check-seo: clean');
   process.exit(problems.length ? 1 : 0);

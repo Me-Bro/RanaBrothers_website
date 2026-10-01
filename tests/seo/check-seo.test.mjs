@@ -81,6 +81,11 @@ test('flags broken internal links but accepts registry, external and asset paths
   assert.deepEqual(problems({ body: '<a href="/edgeverify/">x</a><a href="/og/services--web.png">y</a><a href="/_next/x.js">z</a>' }), []);
 });
 
+test('flags links to directories in out/ (they cost a redirect and break the no-trailing-slash rule)', () => {
+  assert.match(problems({ body: '<a href="/og/">x</a>' }).join('\n'), /does not resolve/);
+  assert.match(problems({ body: '<a href="/og">x</a>' }).join('\n'), /does not resolve/);
+});
+
 test('flags new-tab links without noopener', () => {
   assert.match(problems({ body: '<a href="https://example.com" target="_blank">x</a>' }).join('\n'), /noopener/);
 });
