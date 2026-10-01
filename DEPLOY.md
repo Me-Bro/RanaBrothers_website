@@ -52,6 +52,7 @@ export default {
 
 - Every `/edgeverify/` URL listed in `content/external-urls.ts` (the sitemap includes all of them) returns 200 through the Worker, with no `X-Robots-Tag: noindex` and no redirect to a `vercel.app` host. For example:
   `for p in $(grep -o "'/edgeverify/[^']*'" content/external-urls.ts | tr -d "'"); do curl -s -o /dev/null -w "%{http_code} $p\n" "https://ranabrothers.online$p"; done`
+- `https://rooted.ranabrothers.online` serves RootEd: a DNS CNAME for `rooted` points at the app's host, and the custom domain is added on that host. The home page, the footer and the web app page link to it.
 - `/` serves this site, and unknown paths return a real 404.
 - `/portfolio/` returns a 301 to `https://david.ranabrothers.online/about`.
 - `https://ranabrothers.pages.dev` returns `X-Robots-Tag: noindex`.

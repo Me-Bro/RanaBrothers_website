@@ -9,6 +9,7 @@ export const hero = {
 export const proof = [
   { label: 'DuSu', text: 'Voice-first AI English coach · 200+ users', href: 'https://dusu.ranabrothers.online' },
   { label: 'Edge Verify', text: 'Backtesting on 8 years of NSE data', href: 'https://ranabrothers.online/edgeverify/' },
+  { label: 'RootEd', text: 'Multi-tenant school management platform', href: 'https://rooted.ranabrothers.online' },
   { label: 'Founder-led', text: 'You work with the people who build it' },
 ];
 

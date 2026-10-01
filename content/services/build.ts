@@ -314,7 +314,7 @@ export const buildServices: ServiceContent[] = [
       },
       {
         label: 'RootEd, a multi-tenant school platform',
-        href: '/work',
+        href: 'https://rooted.ranabrothers.online',
         text: 'Built by Vibhanshu with React, Node.js, MongoDB and Docker, RootEd is one platform that serves many schools. Serving many organisations from one deployment is the central design question in most business web apps.',
       },
     ],
