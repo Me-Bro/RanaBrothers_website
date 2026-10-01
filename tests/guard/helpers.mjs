@@ -22,3 +22,11 @@ export function envWith(extra = {}) {
   }
   return env;
 }
+
+/** Like envWith, but PATH is exactly `pathValue` (an empty directory hides git from the child). */
+export function envWithPath(pathValue, extra = {}) {
+  const env = envWith(extra);
+  const pathKey = Object.keys(env).find((key) => key.toLowerCase() === 'path') ?? 'PATH';
+  env[pathKey] = pathValue;
+  return env;
+}

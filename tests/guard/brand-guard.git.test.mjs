@@ -15,7 +15,7 @@ function repo() {
   const dir = mkdtempSync(join(tmpdir(), 'bg-'));
   const cfg = join(dir, '..', `${dir.split(/[\\/]/).pop()}-cfg.json`);
   writeFileSync(cfg, JSON.stringify({ salt: 's', maxWords: 4, hashes: denylistHashes('Acme Widget Co', 's'), allowedAuthorEmails: [OK_EMAIL] }));
-  const git = (...a) => execFileSync('git', a, { cwd: dir, encoding: 'utf8' });
+  const git = (...a) => execFileSync('git', a, { cwd: dir, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   git('-c', 'init.defaultBranch=main', 'init', '-q');
   git('config', 'core.autocrlf', 'false');
   git('config', 'user.name', 'Ok');
@@ -293,6 +293,103 @@ test('a local config that is invalid or missing stops the scan with exit 2', () 
     if (local) rmSync(local, { force: true });
     r.done();
   }
+});
+
+// --- Item 6: smaller hardening ---------------------------------------------------------------------
+test('markup files are also scanned as visible text; other files are not', () => {
+  const r = repo();
+  try {
+    const spellings = ['Acme <b>Widget</b> Co', 'Acme&nbsp;Widget&nbsp;Co'];
+    for (const ext of ['html', 'htm', 'xml', 'svg']) {
+      for (const [i, body] of spellings.entries()) {
+        const file = `page${i}.${ext}`;
+        writeFileSync(join(r.dir, file), `<p>ok</p>\n${body}\n`);
+        const res = r.guard('files', file);
+        assert.equal(res.status, 1, `${file} should be flagged`);
+        assert.match(res.stderr, new RegExp(`${file.replace('.', '\\.')}:2 \\[[0-9a-f]{8}\\]`));
+        assert.equal(res.stderr.toLowerCase().includes('acme'), false);
+      }
+    }
+    writeFileSync(join(r.dir, 'notes.txt'), 'Acme <b>Widget</b> Co\n');
+    assert.equal(r.guard('files', 'notes.txt').status, 0, 'only markup files get the visible-text pass');
+  } finally { r.done(); }
+});
+
+test('commits mode scans files that only a merge commit introduces', () => {
+  const r = repo();
+  try {
+    r.commit('base.txt', 'base\n', 'init');
+    r.git('checkout', '-q', '-b', 'side');
+    r.commit('side.txt', 'side\n', 'feat: side');
+    r.git('checkout', '-q', 'main');
+    r.commit('main.txt', 'main\n', 'feat: main');
+    r.git('merge', '-q', '--no-ff', '--no-commit', 'side');
+    writeFileSync(join(r.dir, 'evil.txt'), 'by Acme Widget Co\n');
+    r.git('add', 'evil.txt');
+    r.git('-c', `user.email=${OK_EMAIL}`, 'commit', '-q', '-m', 'merge side');
+    const res = r.guard('commits', 'HEAD');
+    assert.equal(res.status, 1);
+    assert.match(res.stderr, /evil\.txt:1 \[[0-9a-f]{8}\]/);
+  } finally { r.done(); }
+});
+
+test('commits mode scans author and committer names without printing them', () => {
+  const r = repo();
+  try {
+    writeFileSync(join(r.dir, 'a.txt'), 'ok\n');
+    r.git('add', 'a.txt');
+    const commit = spawnSync('git', ['commit', '-q', '-m', 'feat: copy'], { cwd: r.dir, encoding: 'utf8', env: envWith({ GIT_AUTHOR_NAME: 'Acme Widget Co' }) });
+    assert.equal(commit.status, 0, commit.stderr);
+    let res = r.guard('commits', 'HEAD');
+    assert.equal(res.status, 1);
+    assert.match(res.stderr, /\n {2}[0-9a-f]{8} author name \[denylisted term\]\n/);
+    assert.equal(res.stderr.includes('committer name'), false);
+    writeFileSync(join(r.dir, 'b.txt'), 'ok\n');
+    r.git('add', 'b.txt');
+    const second = spawnSync('git', ['commit', '-q', '-m', 'feat: more copy'], { cwd: r.dir, encoding: 'utf8', env: envWith({ GIT_COMMITTER_NAME: 'Acme Widget Co' }) });
+    assert.equal(second.status, 0, second.stderr);
+    res = r.guard('commits', 'HEAD~1..HEAD');
+    assert.equal(res.status, 1);
+    assert.match(res.stderr, /\n {2}[0-9a-f]{8} committer name \[denylisted term\]\n/);
+    assert.equal(res.stderr.toLowerCase().includes('acme'), false);
+  } finally { r.done(); }
+});
+
+test('message mode scans a commit message file', () => {
+  const r = repo();
+  try {
+    const file = join(r.dir, 'MSG');
+    writeFileSync(file, 'feat: add copy\n\nport from acmewidgetco site\n');
+    let res = r.guard('message', file);
+    assert.equal(res.status, 1);
+    assert.match(res.stderr, /^ {2}commit message:3 \[[0-9a-f]{8}\]$/m);
+    assert.equal(res.stderr.toLowerCase().includes('acme'), false);
+    writeFileSync(file, 'feat: add copy\n');
+    res = r.guard('message', file);
+    assert.equal(res.status, 0, res.stderr);
+    assert.match(res.stdout, /^brand-guard: clean \(message, 1 scanned\)$/m);
+    assert.equal(r.guard('message').status, 2, 'no file given');
+    res = r.guard('message', join(r.dir, 'missing'));
+    assert.equal(res.status, 2);
+    assert.match(res.stderr, /^brand-guard: path not found$/m);
+  } finally { r.done(); }
+});
+
+// --- Item 4: the text mode scans plain strings such as ref names -----------------------------------
+test('text mode scans its arguments and reports only their position, never the text', () => {
+  const r = repo();
+  try {
+    let res = r.guard('text', 'refs/heads/main', 'refs/heads/feat/new-section');
+    assert.equal(res.status, 0, res.stderr);
+    assert.match(res.stdout, /^brand-guard: clean \(text, 2 scanned\)$/m);
+    res = r.guard('text', 'refs/heads/main', 'refs/heads/acme-widget-co-port');
+    assert.equal(res.status, 1);
+    assert.match(res.stderr, /^ {2}argument 2 \[[0-9a-f]{8}\]$/m);
+    assert.equal(res.stderr.toLowerCase().includes('acme'), false);
+    res = r.guard('text');
+    assert.equal(res.status, 2);
+    assert.match(res.stderr, /^brand-guard: nothing to scan$/m);
+  } finally { r.done(); }
 });
 
 test('still runs when started through a symlink or junction (main-module detection)', (t) => {

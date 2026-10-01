@@ -60,6 +60,35 @@ test('finds terms embedded in binary metadata', () => {
   assert.equal(findHits(binaryStrings(buf), cfg).length > 0, true);
 });
 
+// --- Item 6: windows span line breaks, markup is also scanned as visible text ---------------------
+test('a term split across line breaks is found, on the line of its first word', () => {
+  assert.deepEqual(findHits('Acme\nWidget Co', cfg).map((h) => h.line), [1]);
+  assert.deepEqual(findHits('first\nAcme Widget\nCo\nlast', cfg).map((h) => h.line), [2]);
+  assert.deepEqual(findHits('Acme\r\nWidget\r\n\r\nCo', cfg).map((h) => h.line), [1]);
+  assert.deepEqual(findHits('Acme\nWidgets Co', cfg), [], 'a different word on the next line is not the term');
+});
+
+test('several windows that match on one line still give one hit for that line', () => {
+  assert.equal(findHits('Acme Widget Co and AcmeWidgetCo again', cfg).length, 1);
+  assert.deepEqual(findHits('Acme Widget Co\nplain\nAcme Widget Co', cfg).map((h) => h.line), [1, 3]);
+});
+
+test('visibleText drops tags and comments, decodes entities and keeps the line count', () => {
+  assert.equal(guard.visibleText('Acme <b>Widget</b> Co'), 'Acme Widget Co');
+  assert.equal(guard.visibleText('Acme&nbsp;Widget&nbsp;Co'), 'Acme Widget Co');
+  assert.equal(guard.visibleText('&#65;cme &#x57;idget &amp; Co &lt;3'), 'Acme Widget & Co <3');
+  assert.equal(guard.visibleText('a<!-- x\ny -->b\n<p\nclass="c">d'), 'a\nb\n\nd');
+  assert.equal(guard.visibleText('<![CDATA[Acme Widget Co]]>'), 'Acme Widget Co');
+  assert.equal(guard.visibleText('&constructor; &#x110000; &#xD800; &bogus;'), '&constructor; &#x110000; &#xD800; &bogus;', 'unknown or invalid entities stay as they are');
+});
+
+test('markup hides a term from the raw text but not from its visible text', () => {
+  for (const markup of ['Acme <b>Widget</b> Co', 'Acme&nbsp;Widget&nbsp;Co', '<p>Acme</p><p>Widget Co</p>', 'Ac<wbr>me Wid<wbr>get Co']) {
+    assert.deepEqual(findHits(markup, cfg), [], `raw: ${markup}`);
+    assert.equal(findHits(guard.visibleText(markup), cfg).length, 1, `visible: ${markup}`);
+  }
+});
+
 // --- Item 1: reported paths never contain a matched term ---------------------------------------
 test('redactPath replaces every path segment that contains a term', () => {
   assert.equal(guard.redactPath('logo/Acme-Widget-Co.png', cfg), 'logo/***');
