@@ -295,6 +295,28 @@ test('a local config that is invalid or missing stops the scan with exit 2', () 
   }
 });
 
+test('without the private salt the guard refuses to scan, unless told to check identities only', () => {
+  const r = repo();
+  let local;
+  try {
+    writeFileSync(r.cfg, JSON.stringify({ maxWords: 4, hashes: denylistHashes('Acme Widget Co', 's'), allowedAuthorEmails: [OK_EMAIL] }));
+    writeFileSync(join(r.dir, 'a.txt'), 'made by Acme Widget Co\n');
+    let res = r.guard('files', 'a.txt');
+    assert.equal(res.status, 2);
+    assert.match(res.stderr, /^brand-guard: no private salt/m);
+    res = r.guardWith({ BRAND_GUARD_ALLOW_NO_SALT: '1' }, 'files', 'a.txt');
+    assert.equal(res.status, 0, res.stderr);
+    assert.match(res.stderr, /terms are not checked/);
+    assert.match(res.stdout, /no terms checked/);
+    local = writeLocalConfig(r, 'Acmo');
+    res = r.guardWith({ BRAND_GUARD_LOCAL: local }, 'files', 'a.txt');
+    assert.equal(res.status, 1, 'the local config supplies the salt, so the public term is found again');
+  } finally {
+    if (local) rmSync(local, { force: true });
+    r.done();
+  }
+});
+
 // --- Item 6: smaller hardening ---------------------------------------------------------------------
 test('markup files are also scanned as visible text; other files are not', () => {
   const r = repo();

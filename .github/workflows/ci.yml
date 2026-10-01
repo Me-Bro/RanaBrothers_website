@@ -2,6 +2,7 @@ name: ci
 
 on:
   pull_request:
+  pull_request_target:
   push:
     branches: [main]
 
@@ -10,6 +11,7 @@ permissions:
 
 jobs:
   verify:
+    if: github.event_name != 'pull_request_target'
     runs-on: ubuntu-latest
     env:
       NEXT_TELEMETRY_DISABLED: '1'
@@ -22,14 +24,35 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      # The denylist's salt is private. Pull requests from forks get no secrets, so there the guard checks
+      # identities only and the guard-terms job below scans for terms instead.
+      - name: Load the private denylist
+        id: denylist
+        env:
+          LOCAL_JSON: ${{ secrets.BRAND_GUARD_LOCAL_JSON }}
+        run: |
+          if [ -n "$LOCAL_JSON" ]; then
+            printf '%s' "$LOCAL_JSON" > "$RUNNER_TEMP/brand-guard.local.json"
+            echo "path=$RUNNER_TEMP/brand-guard.local.json" >> "$GITHUB_OUTPUT"
+          else
+            echo "::warning::BRAND_GUARD_LOCAL_JSON is not available here, so the brand guard checks identities only"
+          fi
       - run: npm run lint
       - run: npm test
       - run: npm run guard
+        env:
+          BRAND_GUARD_LOCAL: ${{ steps.denylist.outputs.path }}
+          BRAND_GUARD_ALLOW_NO_SALT: ${{ steps.denylist.outputs.path == '' && '1' || '' }}
       - name: Guard pull-request commits (identities, messages, every blob)
         if: github.event_name == 'pull_request'
+        env:
+          BRAND_GUARD_LOCAL: ${{ steps.denylist.outputs.path }}
+          BRAND_GUARD_ALLOW_NO_SALT: ${{ steps.denylist.outputs.path == '' && '1' || '' }}
         run: node scripts/brand-guard.mjs commits ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
       - run: npm run check:content
       - run: npm run build
+        env:
+          BRAND_GUARD_LOCAL: ${{ steps.denylist.outputs.path }}
       - run: npm run typecheck
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
@@ -40,3 +63,42 @@ jobs:
           name: playwright-report
           path: playwright-report
           retention-days: 7
+
+  # Scans every pull request, including those from forks, for denylisted terms. It runs in the base repository's
+  # context so it can read the private denylist. It checks out the base branch only and reads the pull request's
+  # commits as git data: no code from the pull request is installed or run.
+  guard-terms:
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Fetch the pull request's commits without checking them out
+        run: git fetch --no-tags origin "+refs/pull/${{ github.event.pull_request.number }}/head:refs/rb/pr-head"
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - name: Load the private denylist
+        id: denylist
+        env:
+          LOCAL_JSON: ${{ secrets.BRAND_GUARD_LOCAL_JSON }}
+        run: |
+          if [ -z "$LOCAL_JSON" ]; then
+            echo "::warning::Add the BRAND_GUARD_LOCAL_JSON repository secret (see CONTRIBUTING.md); until then pull requests are not scanned for terms in CI"
+            exit 0
+          fi
+          printf '%s' "$LOCAL_JSON" > "$RUNNER_TEMP/brand-guard.local.json"
+          echo "path=$RUNNER_TEMP/brand-guard.local.json" >> "$GITHUB_OUTPUT"
+      - name: Scan the pull request's commits, title, description and branch name
+        if: steps.denylist.outputs.path != ''
+        env:
+          BRAND_GUARD_LOCAL: ${{ steps.denylist.outputs.path }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          node scripts/brand-guard.mjs commits "$BASE_SHA..$HEAD_SHA"
+          node scripts/brand-guard.mjs text "$PR_TITLE" "$PR_BODY" "$PR_BRANCH"

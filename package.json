@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
     "build": "cross-env NEXT_OUTPUT_EXPORT=1 next build",
-    "postbuild": "node scripts/fix-segment-files.mjs out && node scripts/brand-guard.mjs files out && node scripts/check-content.mjs && node scripts/check-seo.mjs",
+    "postbuild": "node scripts/fix-segment-files.mjs out && cross-env BRAND_GUARD_ALLOW_NO_SALT=1 node scripts/brand-guard.mjs files out && node scripts/check-content.mjs && node scripts/check-seo.mjs",
     "serve": "serve out --listen tcp://127.0.0.1:4173 --no-clipboard",
     "lint": "eslint . --max-warnings=0",
     "typecheck": "tsc --noEmit",

@@ -130,7 +130,6 @@ test('loadConfig rejects every invalid field and names it', () => {
   const bad = [
     ['salt', { salt: '' }],
     ['salt', { salt: 5 }],
-    ['salt', { salt: undefined }],
     ['maxWords', { maxWords: 0 }],
     ['maxWords', { maxWords: 9 }],
     ['maxWords', { maxWords: 2.5 }],
@@ -204,6 +203,21 @@ test('a local config must be valid, readable and use the same salt', () => {
   );
 });
 
+test('a public config may leave out the salt; the local config supplies it', () => {
+  const { salt: _secret, ...publicWithoutSalt } = GOOD_CONFIG;
+  const merged = withTwoConfigs(publicWithoutSalt, LOCAL_CONFIG, (pub, local) => guard.loadConfig(pub, local));
+  assert.equal(merged.salt, 's');
+  assert.equal(findHits('made by Acme Widget Co', merged).length, 1, 'the public hashes work with the private salt');
+  assert.equal(findHits('made by Acmo', merged).length, 1);
+});
+
+test('without a salt, loadConfig reports none and nothing can match', () => {
+  const { salt: _secret, ...publicWithoutSalt } = GOOD_CONFIG;
+  const c = withConfigFile(publicWithoutSalt, (f) => guard.loadConfig(f));
+  assert.equal(c.salt, null);
+  assert.deepEqual(findHits('made by Acme Widget Co', c), []);
+});
+
 test('loadConfig(file) never picks up the local denylist of the machine it runs on', () => {
   const c = withConfigFile(GOOD_CONFIG, (file) => guard.loadConfig(file));
   assert.equal(c.hashes.size, GOOD_CONFIG.hashes.length);
@@ -219,8 +233,8 @@ test('the checked-in denylist allowlists the maintainer and the GitHub web-flow 
   assert.equal(c.maxWords, 4);
 });
 
-test('the checked-in denylist holds nothing readable: only hex hashes beside its salt, word limit and emails', () => {
+test('the checked-in denylist holds nothing a guess can be checked against: hashes, word limit and emails, no salt', () => {
   const raw = JSON.parse(readFileSync(REPO_DENYLIST, 'utf8'));
-  assert.deepEqual(Object.keys(raw).sort(), ['allowedAuthorEmails', 'hashes', 'maxWords', 'salt']);
+  assert.deepEqual(Object.keys(raw).sort(), ['allowedAuthorEmails', 'hashes', 'maxWords']);
   assert.equal(raw.hashes.length > 0 && raw.hashes.every((h) => /^[0-9a-f]{24}$/.test(h)), true);
 });

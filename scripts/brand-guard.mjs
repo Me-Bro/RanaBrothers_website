@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 // Brand guard: blocks denylisted terms in file contents, file names, commit messages, ref names and
 // commit identities (non-allowlisted emails; author and committer names). Terms are stored only as
-// salted SHA-256 hashes, so this repository never contains them:
-//   scripts/brand-guard.denylist.json              committed: terms whose joined form is >= 12 characters with a letter
-//   ../_private/brand-guard.local.json (optional)  never committed: digits-only and short terms, whose hashes could be
-//                                                  brute-forced from a public file. $BRAND_GUARD_LOCAL overrides the path.
+// salted SHA-256 hashes, and the salt itself is secret, so this repository holds nothing that a guessed
+// term could be checked against:
+//   scripts/brand-guard.denylist.json   committed: hashes of terms whose joined form is >= 12 characters with a letter
+//   ../_private/brand-guard.local.json  never committed: the salt, plus digits-only and short terms.
+//                                       $BRAND_GUARD_LOCAL overrides the path (CI writes it from a secret).
+// Without the salt nothing can be matched, so the guard stops with exit 2. BRAND_GUARD_ALLOW_NO_SALT=1 lets it run
+// anyway, checking identities only and saying so, for builds on machines that don't hold the private file.
 // Hits are reported as <path>:<line> [hash prefix], never as the matched text (CI logs are public);
 // every path segment that contains a hit is printed as ***.
 //
@@ -82,6 +85,7 @@ export function denylistHashes(term, salt) {
 
 /** Returns one { line, hash } per line (of a window's first token) that contains a denylisted term. */
 export function findHits(text, { hashes, salt, maxWords }) {
+  if (!salt) return [];
   const { tokens, lines } = tokenizeLines(text);
   const hits = [];
   let lastHitLine = 0;
@@ -147,16 +151,17 @@ function readConfig(file, role = '') {
     throw invalid(err instanceof SyntaxError ? 'json' : 'file');
   }
   if (raw === null || typeof raw !== 'object' || Array.isArray(raw)) throw invalid('root');
-  if (typeof raw.salt !== 'string' || raw.salt === '') throw invalid('salt');
+  if (raw.salt !== undefined && (typeof raw.salt !== 'string' || raw.salt === '')) throw invalid('salt');
   if (!Number.isInteger(raw.maxWords) || raw.maxWords < 1 || raw.maxWords > 8) throw invalid('maxWords');
   if (!Array.isArray(raw.hashes) || raw.hashes.length === 0 || !raw.hashes.every((h) => typeof h === 'string' && HEX24.test(h))) throw invalid('hashes');
   const emails = raw.allowedAuthorEmails;
   if (!Array.isArray(emails) || emails.length === 0 || !emails.every((e) => typeof e === 'string' && e !== '')) throw invalid('allowedAuthorEmails');
-  return { salt: raw.salt, maxWords: raw.maxWords, hashes: new Set(raw.hashes), allowedEmails: new Set(emails.map((e) => e.toLowerCase())) };
+  return { salt: raw.salt ?? null, maxWords: raw.maxWords, hashes: new Set(raw.hashes), allowedEmails: new Set(emails.map((e) => e.toLowerCase())) };
 }
 
 /**
- * Loads the public denylist and merges the optional local one (same format, same salt).
+ * Loads the public denylist and merges the optional local one (same format; the salt may be in either, and must
+ * match if it is in both). The checked-in file has no salt, so `salt` is null unless a local config is found.
  * The local file is `local` if given, else $BRAND_GUARD_LOCAL (must exist), else the default
  * location when it exists. An explicit `file` or $BRAND_GUARD_CONFIG (tests) skips that default lookup.
  */
@@ -170,9 +175,9 @@ export function loadConfig(file, local) {
   }
   if (!localFile) return cfg;
   const extra = readConfig(localFile, 'local');
-  if (extra.salt !== cfg.salt) throw new GuardError('invalid config (salt) [local]');
+  if (cfg.salt && extra.salt && extra.salt !== cfg.salt) throw new GuardError('invalid config (salt) [local]');
   return {
-    salt: cfg.salt,
+    salt: cfg.salt ?? extra.salt,
     maxWords: Math.max(cfg.maxWords, extra.maxWords),
     hashes: new Set([...cfg.hashes, ...extra.hashes]),
     allowedEmails: new Set([...cfg.allowedEmails, ...extra.allowedEmails]),
@@ -237,6 +242,12 @@ const isFile = (p) => {
 /** Returns the exit code: 0 clean, 1 problems found. Anything that stops it from scanning throws a GuardError (exit 2). */
 function main([mode = 'files', ...args]) {
   const cfg = loadConfig();
+  if (!cfg.salt) {
+    if (process.env.BRAND_GUARD_ALLOW_NO_SALT !== '1') {
+      throw new GuardError('no private salt: put the private denylist at ../_private/brand-guard.local.json or point BRAND_GUARD_LOCAL at it');
+    }
+    console.error('brand-guard: warning: no private salt, so denylisted terms are not checked (identities still are)');
+  }
   const problems = [];
   let scanned = 0;
   if (mode === 'files') {
@@ -299,7 +310,7 @@ function main([mode = 'files', ...args]) {
     console.error(`brand-guard: ${unique.length} problem(s)\n  ${unique.join('\n  ')}`);
     return 1;
   }
-  console.log(`brand-guard: clean (${mode}, ${scanned} scanned)`);
+  console.log(`brand-guard: ${cfg.salt ? 'clean' : 'no terms checked'} (${mode}, ${scanned} scanned)`);
   return 0;
 }
 

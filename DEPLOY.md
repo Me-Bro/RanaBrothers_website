@@ -11,7 +11,7 @@ The site is a static export. Whatever deploys it needs only this repository.
 | Environment variables | Optional: `NEXT_PUBLIC_WEB3FORMS_KEY` enables the on-site contact form (a Web3Forms access key registered to the studio's own email). Without it, the contact page shows an email button instead |
 
 `npm run build` also runs three gates, and the deploy fails if any of them fails:
-- the brand guard over `out/`
+- the brand guard over `out/` (it needs the private denylist; on a host without it, it prints a warning and checks nothing, which is fine because every push is already checked by the git hooks and CI)
 - the content rules (`VERIFY:` markers are listed but don't block)
 - the SEO gate
 
