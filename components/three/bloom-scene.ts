@@ -105,7 +105,9 @@ export async function mountBloom(canvas: HTMLCanvasElement, opts: BloomOptions):
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    // setSize clears the drawing buffer, so draw again even while paused (the loop is stopped then).
     dirty = true;
+    schedule();
   };
 
   const frame = (now: number) => {

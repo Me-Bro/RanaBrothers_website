@@ -15,6 +15,8 @@ interface Props {
 }
 
 /** Template for the hub pages (/services, /ai, /work, /guides): intro, grouped cards, sections, comparison, FAQ, CTA. */
+const titleId = (title: string) => `${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-title`;
+
 export function HubPage({ path, content, groups }: Props) {
   const allPaths = groups.flatMap((g) => g.items.map((i) => i.href));
   return (
@@ -31,9 +33,9 @@ export function HubPage({ path, content, groups }: Props) {
       />
 
       {groups.map((g) => (
-        <section key={g.title} aria-labelledby={`${g.title}-title`} className="border-t border-hairline py-14 sm:py-20">
+        <section key={g.title} aria-labelledby={titleId(g.title)} className="border-t border-hairline py-14 sm:py-20">
           <Container>
-            <h2 id={`${g.title}-title`} className="text-2xl font-semibold tracking-tight sm:text-3xl">
+            <h2 id={titleId(g.title)} className="text-2xl font-semibold tracking-tight sm:text-3xl">
               {g.title}
             </h2>
             <div className="mt-8">

@@ -1,7 +1,11 @@
 // Markdown → HTML at build time for case studies and guides.
 // Headings get stable ids (and never render as h1), raw HTML is escaped, HTML comments
-// (e.g. VERIFY notes) are dropped, and external links open in a new tab safely.
+// (e.g. VERIFY notes) are dropped, and external links open in a new tab safely. Only http(s),
+// mailto, site-relative and fragment links are rendered as links; anything else becomes plain text.
+// Images are refused: pages need vetted sources with alt text and explicit sizes, so add them in a component.
 import { Marked, type Tokens } from 'marked';
+
+const SAFE_HREF = /^(https?:\/\/|mailto:|\/(?!\/)|#)/i;
 
 export interface Heading {
   id: string;
@@ -39,6 +43,7 @@ export function renderMarkdown(md: string): { html: string; headings: Heading[] 
       },
       link({ href, title, tokens }: Tokens.Link) {
         const text = this.parser.parseInline(tokens);
+        if (!SAFE_HREF.test(href)) return text;
         const titleAttr = title ? ` title="${escapeHtml(title)}"` : '';
         if (/^https?:\/\//.test(href)) {
           return `<a href="${escapeHtml(href)}"${titleAttr} target="_blank" rel="noopener">${text}<span class="sr-only"> (opens in a new tab)</span></a>`;
@@ -47,6 +52,9 @@ export function renderMarkdown(md: string): { html: string; headings: Heading[] 
       },
       html({ text }: Tokens.HTML | Tokens.Tag) {
         return escapeHtml(text);
+      },
+      image({ href }: Tokens.Image): string {
+        throw new Error(`Markdown images are not supported (${href}): add images in a component with alt text and explicit width and height`);
       },
     },
   });

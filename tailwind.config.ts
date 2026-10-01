@@ -30,12 +30,6 @@ const config: Config = {
         serif: ['var(--font-serif)', 'Georgia', 'serif'],
       },
       maxWidth: { wide: '75rem', measure: '68ch' },
-      keyframes: {
-        'spin-slow': { to: { transform: 'rotate(360deg)' } },
-      },
-      animation: {
-        'spin-slow': 'spin-slow 90s linear infinite',
-      },
     },
   },
   plugins: [],

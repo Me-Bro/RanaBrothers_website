@@ -35,7 +35,7 @@ export function HomeHero() {
           className="pointer-events-none absolute right-[-18%] top-6 h-[22rem] w-[22rem] opacity-20 sm:h-[28rem] sm:w-[28rem] lg:pointer-events-auto lg:relative lg:right-auto lg:top-auto lg:mx-auto lg:h-[32rem] lg:w-[32rem] lg:opacity-100"
         >
           <HeroBloom>
-            <BloomContour className="h-full w-full animate-spin-slow" />
+            <BloomContour className="h-full w-full" />
           </HeroBloom>
         </div>
       </Container>

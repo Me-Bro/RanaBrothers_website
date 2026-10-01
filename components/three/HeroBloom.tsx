@@ -18,21 +18,32 @@ export function HeroBloom({ children }: { children: ReactNode }) {
     if (!canGoLive()) return;
     let cancelled = false;
     whenQuiet(async () => {
-      if (cancelled || !canvasRef.current) return;
-      const { mountBloom } = await import('./bloom-scene');
-      if (cancelled || !canvasRef.current) return;
-      const startPaused = motionPaused();
-      setPaused(startPaused);
-      sceneRef.current = await mountBloom(canvasRef.current, {
-        paused: startPaused,
-        onReady: () => {
-          if (!cancelled) setLive(true);
-        },
-        onFail: () => {
-          sceneRef.current = null;
-          if (!cancelled) setLive(false);
-        },
-      });
+      try {
+        if (cancelled || !canvasRef.current) return;
+        const { mountBloom } = await import('./bloom-scene');
+        if (cancelled || !canvasRef.current) return;
+        const startPaused = motionPaused();
+        setPaused(startPaused);
+        const scene = await mountBloom(canvasRef.current, {
+          paused: startPaused,
+          onReady: () => {
+            if (!cancelled) setLive(true);
+          },
+          onFail: () => {
+            sceneRef.current = null;
+            if (!cancelled) setLive(false);
+          },
+        });
+        // Unmounted while the scene was being built: the cleanup below found nothing to dispose.
+        if (cancelled) {
+          scene.dispose();
+          return;
+        }
+        sceneRef.current = scene;
+      } catch {
+        // WebGL can still fail after the capability probe (context limits, a GPU change): keep the poster.
+        sceneRef.current = null;
+      }
     });
     return () => {
       cancelled = true;

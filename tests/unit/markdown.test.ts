@@ -10,6 +10,19 @@ describe('renderMarkdown', () => {
     expect(headings.map((h) => h.id)).toEqual(['the-problem', 'key-decision', 'the-problem-2']);
   });
 
+  it('renders links with an unsafe scheme as plain text', () => {
+    for (const md of ['[x](javascript:alert(1))', '<javascript:alert(1)>', '[x](data:text/html,hi)', '[x](vbscript:msgbox)']) {
+      const { html } = renderMarkdown(`${md}\n`);
+      expect(html, md).not.toContain('<a ');
+    }
+    const { html } = renderMarkdown('[a](/contact) [b](#top) [c](mailto:hi@example.com) [d](https://example.com)\n');
+    expect(html.match(/<a /g)).toHaveLength(4);
+  });
+
+  it('refuses Markdown images (pages need explicit sizes and vetted sources)', () => {
+    expect(() => renderMarkdown('![chart](/og/home.png)\n')).toThrow(/image/i);
+  });
+
   it('never emits an h1', () => {
     expect(renderMarkdown('# Title\n').html).toContain('<h2 id="title">');
   });

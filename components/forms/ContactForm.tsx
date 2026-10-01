@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 
 const ENDPOINT = 'https://api.web3forms.com/submit';
 
@@ -25,6 +25,11 @@ type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'sent' } | { kind
 export function ContactForm({ accessKey, thanksUrl, email }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
+
+  // The browser validates the form while JavaScript is off; once hydrated, onSubmit validates it instead.
+  useEffect(() => {
+    if (formRef.current) formRef.current.noValidate = true;
+  }, []);
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,7 +58,7 @@ export function ContactForm({ accessKey, thanksUrl, email }: Props) {
   };
 
   return (
-    <form ref={formRef} method="POST" action={ENDPOINT} onSubmit={onSubmit} noValidate className="space-y-6">
+    <form ref={formRef} method="POST" action={ENDPOINT} onSubmit={onSubmit} className="space-y-6">
       <input type="hidden" name="access_key" value={accessKey} />
       <input type="hidden" name="subject" value="New project enquiry — ranabrothers.online" />
       <input type="hidden" name="from_name" value="ranabrothers.online" />
