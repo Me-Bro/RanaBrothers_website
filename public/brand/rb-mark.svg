@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="512" height="512" role="img" aria-labelledby="t">
+  <title id="t">Rana Brothers</title>
+  <defs>
+    <linearGradient id="rb-g" x1="0" y1="-5" x2="0" y2="-28" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F7E9C6"/>
+      <stop offset=".55" stop-color="#D8B676"/>
+      <stop offset="1" stop-color="#A87936"/>
+    </linearGradient>
+    <path id="rb-p" d="M0-5C7-9 9-20 2.5-28C-3.5-22-5.5-11 0-5Z" fill="url(#rb-g)"/>
+  </defs>
+  <g transform="translate(32 32)">
+    <use href="#rb-p"/>
+    <use href="#rb-p" transform="rotate(60)"/>
+    <use href="#rb-p" transform="rotate(120)"/>
+    <use href="#rb-p" transform="rotate(180)"/>
+    <use href="#rb-p" transform="rotate(240)"/>
+    <use href="#rb-p" transform="rotate(300)"/>
+    <circle r="2.6" fill="#F7E9C6"/>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+#!/bin/sh
+# Blocks pushes containing denylisted terms or non-allowlisted commit identities.
+# args: $1 = remote name (or URL), $2 = URL; stdin lines: <local ref> <local sha> <remote ref> <remote sha>
+guard="$(dirname "$0")/../scripts/brand-guard.mjs"
+zero=0000000000000000000000000000000000000000
+while read -r lref lsha rref rsha; do
+  [ "$lsha" = "$zero" ] && continue
+  node "$guard" text "$lref" "$rref" || exit 1
+  if [ "$rsha" != "$zero" ] && git cat-file -e "$rsha^{commit}" 2>/dev/null; then
+    node "$guard" commits "$rsha..$lsha" || exit 1
+  else
+    # New branch, or the old remote tip is not known locally: scan everything the target remote lacks.
+    # Only that remote's tracking refs are excluded; another remote's refs must not hide a leak.
+    node "$guard" commits "$lsha" --not --remotes="$1" || exit 1
+  fi
+done
+exit 0

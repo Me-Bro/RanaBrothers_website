@@ -1,0 +1,59 @@
+{
+  "name": "ranabrothers-website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "cross-env NEXT_OUTPUT_EXPORT=1 next build",
+    "postbuild": "node scripts/fix-segment-files.mjs out && cross-env BRAND_GUARD_ALLOW_NO_SALT=1 node scripts/brand-guard.mjs files out && node scripts/check-content.mjs && node scripts/check-seo.mjs",
+    "serve": "serve out --listen tcp://127.0.0.1:4173 --no-clipboard",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run && node --test tests/guard/brand-guard.test.mjs tests/guard/brand-guard.git.test.mjs tests/guard/hooks.test.mjs tests/guard/setup-hooks.test.mjs tests/content/check-content.test.mjs tests/assets/ico.test.mjs tests/assets/brand-assets.test.mjs tests/seo/check-seo.test.mjs tests/build/segment-files.test.mjs",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test",
+    "guard": "node scripts/brand-guard.mjs files",
+    "check:content": "node scripts/check-content.mjs",
+    "check:launch": "node scripts/check-content.mjs --strict",
+    "check:seo": "node scripts/check-seo.mjs",
+    "assets": "node scripts/brand-assets.mjs && node scripts/og-images.mjs",
+    "og": "node scripts/og-images.mjs",
+    "verify": "npm run lint && npm test && npm run guard && npm run check:content && npm run build && npm run typecheck",
+    "prepare": "node scripts/setup-hooks.mjs"
+  },
+  "dependencies": {
+    "marked": "18.0.14",
+    "next": "16.3.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "0.186.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@fontsource-variable/geist": "5.3.0",
+    "@fontsource-variable/geist-mono": "5.3.0",
+    "@fontsource/geist": "5.3.0",
+    "@fontsource/instrument-serif": "5.3.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "24.19.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/three": "0.186.0",
+    "autoprefixer": "10.6.1",
+    "cross-env": "10.1.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.8",
+    "node-html-parser": "9.0.4",
+    "postcss": "8.5.28",
+    "satori": "0.33.5",
+    "serve": "14.2.6",
+    "sharp": "0.35.5",
+    "tailwindcss": "3.4.19",
+    "typescript": "5.9.3",
+    "vitest": "5.0.3"
+  },
+  "volta": {
+    "node": "24.16.0"
+  }
+}

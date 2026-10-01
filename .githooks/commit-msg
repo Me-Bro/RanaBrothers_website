@@ -1,0 +1,3 @@
+#!/bin/sh
+# Blocks commit messages that contain denylisted terms. $1 is the path of the message file.
+node "$(dirname "$0")/../scripts/brand-guard.mjs" message "$1" || exit 1
