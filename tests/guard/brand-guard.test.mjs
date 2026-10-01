@@ -204,7 +204,7 @@ test('a local config must be valid, readable and use the same salt', () => {
 });
 
 test('a public config may leave out the salt; the local config supplies it', () => {
-  const { salt: _secret, ...publicWithoutSalt } = GOOD_CONFIG;
+  const publicWithoutSalt = { ...GOOD_CONFIG, salt: undefined };
   const merged = withTwoConfigs(publicWithoutSalt, LOCAL_CONFIG, (pub, local) => guard.loadConfig(pub, local));
   assert.equal(merged.salt, 's');
   assert.equal(findHits('made by Acme Widget Co', merged).length, 1, 'the public hashes work with the private salt');
@@ -212,7 +212,7 @@ test('a public config may leave out the salt; the local config supplies it', () 
 });
 
 test('without a salt, loadConfig reports none and nothing can match', () => {
-  const { salt: _secret, ...publicWithoutSalt } = GOOD_CONFIG;
+  const publicWithoutSalt = { ...GOOD_CONFIG, salt: undefined };
   const c = withConfigFile(publicWithoutSalt, (f) => guard.loadConfig(f));
   assert.equal(c.salt, null);
   assert.deepEqual(findHits('made by Acme Widget Co', c), []);
