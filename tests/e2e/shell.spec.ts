@@ -27,6 +27,34 @@ test('mobile menu opens, closes on Escape and returns focus', async ({ page }, t
   await expect(button).toBeFocused();
 });
 
+test('open mobile menu fills the screen below the header and closes when focus leaves it', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'mobile only');
+  await page.goto('/');
+  const button = page.getByRole('button', { name: 'Menu' });
+  await button.click();
+  const panel = page.getByRole('navigation', { name: 'Mobile' }).locator('..');
+  const box = await panel.boundingBox();
+  const viewport = page.viewportSize();
+  expect(box && viewport && box.height >= viewport.height - 70, `panel height ${box?.height}`).toBe(true);
+  await page.locator('#main').focus();
+  await expect(button).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('desktop menu closes after navigating with a header link and when focus moves on', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'desktop', 'desktop only');
+  await page.goto('/');
+  const nav = page.getByRole('navigation', { name: 'Main' });
+  const services = nav.getByRole('button', { name: 'Services' });
+  await services.click();
+  await nav.getByRole('link', { name: 'Work', exact: true }).click();
+  await expect(page).toHaveURL(/\/work$/);
+  await expect(services).toHaveAttribute('aria-expanded', 'false');
+  await services.click();
+  await expect(services).toHaveAttribute('aria-expanded', 'true');
+  await nav.getByRole('button', { name: 'AI' }).focus();
+  await expect(services).toHaveAttribute('aria-expanded', 'false');
+});
+
 for (const [name, link] of [
   ['Services', 'Mobile apps'],
   ['AI', 'AI chatbots'],

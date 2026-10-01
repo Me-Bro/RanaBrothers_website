@@ -1,7 +1,8 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useId, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect, useId, useRef, useState, type FocusEvent } from 'react';
 import { Icon } from '@/components/ui/Icon';
 import type { NavColumn, NavLink } from '@/content/navigation';
 
@@ -20,13 +21,25 @@ interface Props {
 
 const MOBILE = 'mobile';
 
-/** Header navigation: desktop disclosure menus and a mobile panel. Esc and outside clicks close; focus returns. */
+/**
+ * Header navigation: desktop disclosure menus and a mobile panel. A menu closes on Escape (focus returns to its
+ * button), on a click outside, when keyboard focus moves out of it, and after navigation.
+ */
 export function NavMenus({ menus, links, cta }: Props) {
   const [open, setOpen] = useState<string | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
   const uid = useId();
   const panelId = (id: string) => `${uid}-${id}`;
   const triggerId = (id: string) => `${uid}-${id}-trigger`;
+
+  // The header lives in the root layout and never remounts, so close the menu when the route changes
+  // (including back and forward).
+  const pathname = usePathname();
+  const [shownPath, setShownPath] = useState(pathname);
+  if (pathname !== shownPath) {
+    setShownPath(pathname);
+    setOpen(null);
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -51,20 +64,33 @@ export function NavMenus({ menus, links, cta }: Props) {
     if (open !== MOBILE) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
+    // The panel and its button are hidden from 1024 px up, so a rotation or resize must not leave the page locked.
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const onChange = () => {
+      if (desktop.matches) setOpen(null);
+    };
+    desktop.addEventListener('change', onChange);
     return () => {
       document.body.style.overflow = previous;
+      desktop.removeEventListener('change', onChange);
     };
   }, [open]);
 
   const toggle = (id: string) => setOpen((current) => (current === id ? null : id));
   const close = () => setOpen(null);
+  // Keyboard focus moving outside a menu closes it. A null relatedTarget (a click on plain text inside the
+  // panel, or leaving the window) is left to the outside-click handler.
+  const closeWhenFocusLeaves = (id: string) => (e: FocusEvent<HTMLElement>) => {
+    const next = e.relatedTarget;
+    if (next instanceof Node && !e.currentTarget.contains(next)) setOpen((current) => (current === id ? null : current));
+  };
 
   return (
     <div ref={rootRef} className="flex items-center gap-2">
       {/* Desktop */}
       <nav aria-label="Main" className="hidden items-center gap-1 lg:flex">
         {menus.map((menu) => (
-          <div key={menu.id} className="relative">
+          <div key={menu.id} className="relative" onBlur={closeWhenFocusLeaves(menu.id)}>
             <button
               id={triggerId(menu.id)}
               type="button"
@@ -107,71 +133,73 @@ export function NavMenus({ menus, links, cta }: Props) {
           </div>
         ))}
         {links.map((l) => (
-          <Link key={l.href} href={l.href} className="inline-flex min-h-11 items-center rounded-full px-4 text-[15px] text-fg/90 transition-colors hover:text-gold">
+          <Link key={l.href} href={l.href} onClick={close} className="inline-flex min-h-11 items-center rounded-full px-4 text-[15px] text-fg/90 transition-colors hover:text-gold">
             {l.label}
           </Link>
         ))}
-        <Link href={cta.href} className="ml-2 inline-flex min-h-11 items-center rounded-full bg-gold-fill px-5 text-[15px] font-medium text-on-gold transition-colors hover:bg-gold">
+        <Link href={cta.href} onClick={close} className="ml-2 inline-flex min-h-11 items-center rounded-full bg-gold-fill px-5 text-[15px] font-medium text-on-gold transition-colors hover:bg-gold">
           {cta.label}
         </Link>
       </nav>
 
       {/* Mobile */}
-      <button
-        id={triggerId(MOBILE)}
-        type="button"
-        aria-expanded={open === MOBILE}
-        aria-controls={panelId(MOBILE)}
-        onClick={() => toggle(MOBILE)}
-        className="inline-flex min-h-11 items-center gap-2 rounded-full border border-hairline px-4 text-[15px] lg:hidden"
-      >
-        <Icon name={open === MOBILE ? 'close' : 'menu'} />
-        Menu
-      </button>
-      <div
-        id={panelId(MOBILE)}
-        hidden={open !== MOBILE}
-        className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto border-t border-hairline bg-bg px-6 pb-12 pt-8 lg:hidden"
-      >
-        <nav aria-label="Mobile">
-          {menus.map((menu) => (
-            <div key={menu.id} className="mb-8">
-              {menu.columns.map((col) => (
-                <div key={col.title} className="mb-6">
-                  <p className="eyebrow mb-3">{menu.columns.length > 1 ? `${menu.label} · ${col.title}` : menu.label}</p>
-                  <ul className="space-y-1">
-                    {col.links.map((l) => (
-                      <li key={l.href}>
-                        <Link href={l.href} onClick={close} className="block py-2 text-lg">
-                          {l.label}
-                        </Link>
-                      </li>
-                    ))}
-                    {menu.overview && col === menu.columns[menu.columns.length - 1] ? (
-                      <li>
-                        <Link href={menu.overview.href} onClick={close} className="block py-2 text-lg text-gold">
-                          {menu.overview.label}
-                        </Link>
-                      </li>
-                    ) : null}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          ))}
-          <ul className="space-y-1 border-t border-hairline pt-6">
-            {links.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} onClick={close} className="block py-2 text-lg">
-                  {l.label}
-                </Link>
-              </li>
+      <div className="lg:hidden" onBlur={closeWhenFocusLeaves(MOBILE)}>
+        <button
+          id={triggerId(MOBILE)}
+          type="button"
+          aria-expanded={open === MOBILE}
+          aria-controls={panelId(MOBILE)}
+          onClick={() => toggle(MOBILE)}
+          className="inline-flex min-h-11 items-center gap-2 rounded-full border border-hairline px-4 text-[15px]"
+        >
+          <Icon name={open === MOBILE ? 'close' : 'menu'} />
+          Menu
+        </button>
+        <div
+          id={panelId(MOBILE)}
+          hidden={open !== MOBILE}
+          className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto border-t border-hairline bg-bg px-6 pb-12 pt-8"
+        >
+          <nav aria-label="Mobile">
+            {menus.map((menu) => (
+              <div key={menu.id} className="mb-8">
+                {menu.columns.map((col) => (
+                  <div key={col.title} className="mb-6">
+                    <p className="eyebrow mb-3">{menu.columns.length > 1 ? `${menu.label} · ${col.title}` : menu.label}</p>
+                    <ul className="space-y-1">
+                      {col.links.map((l) => (
+                        <li key={l.href}>
+                          <Link href={l.href} onClick={close} className="block py-2 text-lg">
+                            {l.label}
+                          </Link>
+                        </li>
+                      ))}
+                      {menu.overview && col === menu.columns[menu.columns.length - 1] ? (
+                        <li>
+                          <Link href={menu.overview.href} onClick={close} className="block py-2 text-lg text-gold">
+                            {menu.overview.label}
+                          </Link>
+                        </li>
+                      ) : null}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             ))}
-          </ul>
-          <Link href={cta.href} onClick={close} className="mt-8 inline-flex min-h-11 items-center rounded-full bg-gold-fill px-6 text-base font-medium text-on-gold">
-            {cta.label}
-          </Link>
-        </nav>
+            <ul className="space-y-1 border-t border-hairline pt-6">
+              {links.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} onClick={close} className="block py-2 text-lg">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Link href={cta.href} onClick={close} className="mt-8 inline-flex min-h-11 items-center rounded-full bg-gold-fill px-6 text-base font-medium text-on-gold">
+              {cta.label}
+            </Link>
+          </nav>
+        </div>
       </div>
     </div>
   );

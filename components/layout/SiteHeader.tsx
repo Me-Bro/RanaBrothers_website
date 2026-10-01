@@ -27,7 +27,10 @@ function menus(): Menu[] {
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-hairline bg-bg/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-hairline">
+      {/* The blur sits on its own layer: a backdrop-filter on the header itself would become the containing
+          block of the fixed mobile menu panel and squeeze it to the header's height. */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-bg/80 backdrop-blur-md" />
       <div className="mx-auto flex h-16 w-full max-w-wide items-center justify-between gap-6 px-4 min-[400px]:px-6">
         <Link href="/" aria-label="Rana Brothers home" className="flex items-center gap-2.5 rounded-full">
           <Mark id="site-header" className="h-7 w-7" />
