@@ -399,7 +399,7 @@ export const aiPages: ServiceContent[] = [
       },
       {
         q: 'Is it safe to send customer data to an LLM?',
-        a: "It can be, if you decide what is sent, under which provider terms and what is stored before the first request. It is not safe if nobody decided. Send the minimum the task needs and mask the rest. Keep keys on the server, and read the retention, training-use and region terms of the exact plan you will use, because they differ between providers and between free and paid tiers. Personal data also carries legal duties, so involve your legal adviser. DuSu shows two ways to keep exposure down: speech stays on the device, and users can bring their own keys.",
+        a: "It can be, if you decide what is sent, under which provider terms and what is stored before the first request. It is not safe if nobody decided. Send the minimum the task needs and mask the rest. Keep keys on the server, and read the retention, training-use and region terms of the exact plan you will use, because they differ between providers and between free and paid tiers. Personal data also carries legal duties, so involve your legal adviser.",
       },
     ],
     related: [
@@ -443,7 +443,7 @@ export const aiPages: ServiceContent[] = [
       },
       {
         title: 'Design for the device and the network',
-        body: 'Mobile-first means slow networks, modest phones and mixed languages. We set a response-time budget, stream replies, keep the client light and decide what runs on the device. DuSu is a single-file web app, and its speech runs in the browser.',
+        body: "Mobile-first means slow networks, modest phones and mixed languages. We set a response-time budget, stream replies, keep the client light and decide what runs on the device. DuSu is a single-file web app, and the browser's built-in speech service handles its speech.",
       },
       {
         title: 'Build one thin slice end to end',
@@ -485,7 +485,7 @@ export const aiPages: ServiceContent[] = [
       {
         label: 'DuSu: how it was built',
         href: '/work/dusu-ai-english-coach',
-        text: "The backend is FastAPI with a single WebSocket, backed by Postgres. The client is one vanilla-JS file, shipped as a PWA and wrapped as an Android Trusted Web Activity written in Kotlin. Speech is handled by the browser's Web Speech and stays on the device. Language-model calls follow a chain of Groq, then Gemini, then OpenRouter, ordered by measured latency, and users can bring their own keys.",
+        text: "The backend is FastAPI with a single WebSocket, backed by Postgres. The client is one vanilla-JS file, shipped as a PWA and wrapped as an Android Trusted Web Activity written in Kotlin. Speech is handled by the browser's Web Speech, so only text travels to the backend. Language-model calls follow a chain of Groq, then Gemini, then OpenRouter, ordered by measured latency, and users can bring their own keys.",
       },
       {
         label: 'CloudDocSense: answers from documents',
@@ -503,9 +503,9 @@ export const aiPages: ServiceContent[] = [
           'Extra set-up for users, so it suits technical or motivated audiences. DuSu offers it.',
         ],
         [
-          'Speech on the device',
-          "Speech recognition and speech output run in the user's browser, so you pay nothing for speech processing. DuSu works this way.",
-          "Quality and language coverage depend on the user's browser and phone.",
+          'Browser speech',
+          "The browser's built-in speech service handles recognition and speech output, so you need no hosted speech service and pay nothing for speech. DuSu works this way.",
+          "Quality and language coverage depend on the user's browser and phone, and the browser decides how the audio is processed.",
         ],
         [
           'Right-sized models',
@@ -555,7 +555,7 @@ export const aiPages: ServiceContent[] = [
       },
       {
         q: "How do you keep an AI app's running costs low?",
-        a: "By designing the cost in from the start: choose the smallest model that passes your tests, send fewer tokens, move work onto the user's device where you can, and cap what any account can spend. DuSu applies two of these levers: speech runs in the browser, and users can bring their own provider keys. Its provider chain is ordered by measured latency. It runs at about $0/month for 200+ users. The lever table on this page gives the full list and the trade-off of each.",
+        a: "By designing the cost in from the start: choose the smallest model that passes your tests, send fewer tokens, let the user's browser do work it already can, such as speech, and cap what any account can spend. DuSu applies two of these levers: the browser's built-in speech service handles its speech, and users can bring their own provider keys. Its provider chain is ordered by measured latency. It runs at about $0/month for 200+ users. The lever table on this page gives the full list and the trade-off of each.",
       },
       {
         q: 'Can you build voice AI in Indian languages?',

@@ -73,7 +73,7 @@ export const guidanceServices: ServiceContent[] = [
       {
         label: 'DuSu: a stack sized to its running cost',
         href: '/work/dusu-ai-english-coach',
-        text: 'DuSu helps mobile-first learners in India practise spoken English by voice. David Singh Rana built it, and it has 200+ users and a running cost of about $0/month. Its stack shows the trade-offs we weigh. Browser Web Speech keeps speech on the device. A FastAPI backend serves one WebSocket, with Postgres behind it. One vanilla-JS file ships as a PWA and an Android Trusted Web Activity. LLM calls fail over from Groq to Gemini to OpenRouter, ordered by measured latency.',
+        text: "DuSu helps mobile-first learners in India practise spoken English by voice. David Singh Rana built it, and it has 200+ users and a running cost of about $0/month. Its stack shows the trade-offs we weigh. Browser Web Speech handles speech, so no audio reaches DuSu's servers and speech costs nothing to run. A FastAPI backend serves one WebSocket, with Postgres behind it. One vanilla-JS file ships as a PWA and an Android Trusted Web Activity. LLM calls fail over from Groq to Gemini to OpenRouter, ordered by measured latency.",
       },
       {
         label: 'Edge Verify: assumptions stated, then stress-tested',
@@ -214,7 +214,7 @@ export const guidanceServices: ServiceContent[] = [
       {
         label: 'DuSu: cost and failure designed in',
         href: '/work/dusu-ai-english-coach',
-        text: 'DuSu, built by David Singh Rana, coaches spoken English by voice for mobile-first learners in India. It has 200+ users and a running cost of about $0/month. The decisions a CTO owns are visible in it. LLM providers sit in a failover chain (Groq, then Gemini, then OpenRouter) ordered by measured latency, and users can bring their own keys. Speech-to-text and text-to-speech run in the browser, so speech stays on the device. One web app ships as a PWA and as an Android Trusted Web Activity.',
+        text: "DuSu, built by David Singh Rana, coaches spoken English by voice for mobile-first learners in India. It has 200+ users and a running cost of about $0/month. The decisions a CTO owns are visible in it. LLM providers sit in a failover chain (Groq, then Gemini, then OpenRouter) ordered by measured latency, and users can bring their own keys. Speech-to-text and text-to-speech come from the browser's built-in speech service, so no audio reaches DuSu's servers and speech costs nothing to run. One web app ships as a PWA and as an Android Trusted Web Activity.",
       },
     ],
     comparison: {
@@ -295,6 +295,7 @@ export const guidanceServices: ServiceContent[] = [
     intro: [
       'Software project rescue is the work of taking a late, buggy or stalled project and bringing it to a state where it can ship and be maintained. It starts with access and a code audit, and it ends with delivery. In between, we stabilise what already works and write down what to fix, in order.',
       'A troubled project is not always a lost one. What is often missing is access, visibility and a plan: nobody can say what runs, what is broken or what it would take to finish. We read the code before we judge it, we say what is worth keeping, and we do not recommend a rewrite until the evidence supports one.',
+      // VERIFY: that the studio takes over code built by other teams (see the VERIFY on the maintenance page in services/build.ts)
       'We take over work started by another developer, an agency or an in-house team, including a broken app that still has users. The founders work on client projects directly, so your code is read by people who build and ship software themselves. We are based in Khatima, Uttarakhand, India, and work remotely.',
     ],
     forWho: [
@@ -357,7 +358,7 @@ export const guidanceServices: ServiceContent[] = [
       {
         label: 'DuSu: built to survive a failing dependency',
         href: '/work/dusu-ai-english-coach',
-        text: 'DuSu is an AI coach for spoken English, built by David Singh Rana, with 200+ users and a running cost of about $0/month. Its architecture answers the questions we ask in an audit: what happens when a dependency is slow or down, and what does each user cost? LLM providers sit in a failover chain (Groq, then Gemini, then OpenRouter) ordered by measured latency. Speech stays on the device through browser Web Speech. Scores are labelled AI-estimated, so the product does not claim more certainty than it has.',
+        text: "DuSu is an AI coach for spoken English, built by David Singh Rana, with 200+ users and a running cost of about $0/month. Its architecture answers the questions we ask in an audit: what happens when a dependency is slow or down, and what does each user cost? LLM providers sit in a failover chain (Groq, then Gemini, then OpenRouter) ordered by measured latency. Browser Web Speech handles speech, so speech adds nothing to the bill and no audio reaches DuSu's servers. Scores are labelled AI-estimated, so the product does not claim more certainty than it has.",
       },
     ],
     comparison: {

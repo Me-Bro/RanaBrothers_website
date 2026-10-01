@@ -88,7 +88,7 @@ export const aiHub: HubContent = {
     },
     {
       q: 'Is my data safe with AI models?',
-      a: "It depends on what you send, to whom and under which terms, so the design decides, not the model. Send the minimum the task needs, keep keys on the server and read the retention, training-use and region terms of the exact plan you will use. In our own products, DuSu's speech stays on the device, its users can bring their own keys, and CloudDocSense shows the sources behind each answer.",
+      a: "It depends on what you send, to whom and under which terms, so the design decides, not the model. Send the minimum the task needs, keep keys on the server and read the retention, training-use and region terms of the exact plan you will use.",
     },
   ],
 };

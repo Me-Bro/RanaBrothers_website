@@ -23,10 +23,12 @@ CEFR is the Common European Framework of Reference for Languages, a scale for de
 
 ## Our role
 
+<!-- VERIFY: confirm past client engagements a prospect could be referred to -->
 David built DuSu at Rana Brothers, so the whole product sat with us: the four learning modes, the FastAPI backend, the web client, the Android wrapper and the routing across language models. There was no hand-off between design and engineering. That is how we work on client projects too, because the founders work on the build directly.
 
 ### How long did it take?
 
+<!-- VERIFY: confirm past client engagements a prospect could be referred to -->
 We have not published a build time for DuSu, and we would rather not guess one. Duration follows scope, and DuSu's scope is narrow by design: one WebSocket, one client file, speech handled by the browser and no model hosting. For client work we agree the scope before we start. We can work in fixed-scope milestones or on a monthly arrangement, so a timeline comes from a scoped list and not from another project's calendar.
 
 ## Architecture
@@ -35,7 +37,7 @@ DuSu keeps its moving parts few. In one turn, the learner speaks, the browser tu
 
 - Client: a single-file web app in vanilla JavaScript, installable as a PWA.
 - Android shell: a Trusted Web Activity (TWA) written in Kotlin that opens the same web app inside an Android app.
-- Speech: the browser's Web Speech support does speech-to-text and text-to-speech, and speech stays on the device.
+- Speech: the browser's Web Speech support does speech-to-text and text-to-speech, so DuSu's servers receive text and never audio.
 - Backend: FastAPI with one WebSocket that carries the conversation.
 - Data: Postgres for persistent state.
 - LLM chain: Groq, then Gemini, then OpenRouter, ordered by measured latency, with bring-your-own keys.
@@ -46,11 +48,11 @@ The model writes replies and feedback. XP and streaks are ordinary application l
 
 ## Key decisions
 
-### Run speech on the device
+### Let the browser handle speech
 
-DuSu uses the browser's Web Speech support for speech-to-text and text-to-speech, so speech stays on the device. That takes a hosted speech service off the bill and removes an audio upload from every turn.
+DuSu uses the browser's Web Speech support for speech-to-text and text-to-speech. The browser's built-in speech service handles the audio, so DuSu's servers never receive it and only text travels over the WebSocket. That takes a hosted speech service off the bill, and speech costs DuSu nothing to run.
 
-The trade-off: the browser and operating system decide which recogniser and which voices a learner gets. Quality and language support vary between devices, and we cannot tune the engine. We accept that for a product that must run at close to zero cost. A product that needed guaranteed recognition accuracy would justify a hosted speech service.
+The trade-off: the browser and operating system decide which recogniser and which voices a learner gets, and how the audio is processed. Chrome, for example, sends recognition audio to Google's speech servers by default, and some voices come from remote speech services. So no audio reaches DuSu's servers, but the browser's speech service may still send it elsewhere. Quality and language support vary between devices, and we cannot tune the engine. We accept that for a product that must run at close to zero cost. A product that needed guaranteed recognition accuracy would justify a hosted speech service.
 
 ### Order the LLM chain by measured latency
 
@@ -60,7 +62,7 @@ The trade-off: three integrations to maintain, and three models that behave diff
 
 ### Keep AI costs low as usage grows
 
-Move usage-billed work off the studio's account. Speech runs on the device. Language-model calls use bring-your-own keys, so quota and billing sit with whoever holds the key. In a voice product those are the two places where cost normally grows with minutes of practice. Together with a deliberately small backend, moving them keeps DuSu's running cost at about $0 a month with 200+ users.
+Move usage-billed work off the studio's account. The browser's built-in speech service handles speech, so there is no hosted speech service to pay for. Language-model calls use bring-your-own keys, so quota and billing sit with whoever holds the key. In a voice product those are the two places where cost normally grows with minutes of practice. Together with a deliberately small backend, moving them keeps DuSu's running cost at about $0 a month with 200+ users.
 
 The trade-off: friction. Someone has to obtain a provider key and add it, which is a harder start than signing in and talking. Keys are credentials and need careful handling. We chose a cost that does not track usage over the easiest possible onboarding. Hosting and the database are the costs we would watch as numbers climb.
 
@@ -74,7 +76,7 @@ The trade-off: a single file gets harder to navigate as features grow, and it ha
 
 ### Latency and failover
 
-A voice product has a short patience budget. Speech recognition and synthesis run on the device, so the step we can influence is the model call. The chain is ordered by measured latency, and the next provider takes over when one fails. A fallback also has to treat "too slow" as a failure, not only "returned an error". That is a path we want to test on purpose.
+A voice product has a short patience budget. The browser handles speech recognition and synthesis, and we cannot tune it, so the step we can influence is the model call. The chain is ordered by measured latency, and the next provider takes over when one fails. A fallback also has to treat "too slow" as a failure, not only "returned an error". That is a path we want to test on purpose.
 
 ### Scores from a language model
 
@@ -82,7 +84,7 @@ Interview mode reports six dimensions and offers a better answer. A model's scor
 
 ### Speech you do not control
 
-Browser recognisers are configured for one language at a time, while Hinglish mixes two inside a single sentence. Learn mode accepts Hindi and Hinglish, so mixed-language speech is a hard case for this design. It is a limit of using the browser's engine, and we accepted it in exchange for on-device speech.
+Browser recognisers are configured for one language at a time, while Hinglish mixes two inside a single sentence. Learn mode accepts Hindi and Hinglish, so mixed-language speech is a hard case for this design. It is a limit of using the browser's engine, and we accepted it in exchange for speech that costs nothing to run.
 
 ## Results
 

@@ -117,6 +117,7 @@ export const pages: PageEntry[] = [
     path: '/services/mvp-development',
     label: 'MVP development',
     title: 'MVP Development Company for Startups | Rana Brothers',
+    // VERIFY: "code you own" in the description (client owns the code written for them; the IP policy is unconfirmed, see the VERIFYs on the ownership answers in company/faqs.ts and services/build.ts)
     description:
       'Go from idea to a launched MVP with a senior team: discovery, design, build and launch in clear milestones, with regular demos and code you own.',
     h1: 'MVP development for founders who need to launch and learn',

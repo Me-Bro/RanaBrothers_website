@@ -8,13 +8,13 @@ export const caseStudies: CaseStudyFacts[] = [
     product: 'DuSu',
     productUrl: 'https://dusu.ranabrothers.online',
     summary:
-      'A voice-first AI English-speaking coach for Indian learners with 200+ users: on-device speech, FastAPI and an LLM chain ordered by measured latency.',
+      'A voice-first AI English-speaking coach for Indian learners with 200+ users: browser speech, FastAPI and an LLM chain ordered by measured latency.',
     facts: [
       { label: 'Users', value: '200+' },
       { label: 'Running cost', value: 'About $0/month' },
       { label: 'Modes', value: '4: Talk, Interview, Learn, Daily Talk' },
       { label: 'Levels', value: 'CEFR A0–B2 test, 7-level roadmap' },
-      { label: 'Speech', value: 'Browser Web Speech, stays on the device' },
+      { label: 'Speech', value: 'Browser Web Speech, so only text reaches the backend' },
       { label: 'LLM chain', value: 'Groq → Gemini → OpenRouter, by measured latency' },
       { label: 'Ships as', value: 'PWA and Android Trusted Web Activity' },
     ],

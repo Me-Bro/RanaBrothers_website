@@ -51,6 +51,7 @@ export const about: AboutContent = {
     },
     {
       q: 'What have you built?',
+      // VERIFY: confirm past client engagements a prospect could be referred to
       a: 'Alongside client work, we build our own products: DuSu, a voice-first AI English-speaking coach with 200+ users; Edge Verify, a beta platform for backtesting and paper-trading strategies on Indian markets; and CloudDocSense, a retrieval-augmented document-intelligence system that answers with cited sources. We have written case studies for DuSu and Edge Verify.',
     },
   ],

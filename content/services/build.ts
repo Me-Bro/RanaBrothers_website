@@ -242,6 +242,7 @@ export const buildServices: ServiceContent[] = [
     intro: [
       'Web application development is the practice of building software that runs in the browser and does work for its users: they sign in, create and change data, and see results that depend on who they are. We are a web application development company working remotely from Khatima, Uttarakhand, India.',
       'We build customer portals, dashboards, internal tools and progressive web apps (PWAs). The front end is React or Next.js with TypeScript. Behind it sit Node.js or Python services and a Postgres database. We choose a stack your team can maintain, not the one that is fashionable this year. We also choose the rendering model page by page: static where content rarely changes, server-rendered where search visibility matters, client-side where the page is a working tool.',
+      // VERIFY: confirm past client engagements a prospect could be referred to
       'Two products show the range. DuSu is a voice-first coach delivered as a web app, a PWA and an Android package, with 200+ users. Edge Verify is a data-heavy backtesting and paper-trading platform, in beta. David built both, and both follow the same habit we bring to client work: a small, well-understood architecture with room to grow.',
     ],
     forWho: [
@@ -678,7 +679,7 @@ export const buildServices: ServiceContent[] = [
       {
         label: 'DuSu case study',
         href: '/work/dusu-ai-english-coach',
-        text: 'How the product is built and the decisions behind its running cost: speech in the browser, one WebSocket, FastAPI, Postgres, and two delivery routes, a PWA and an Android Trusted Web Activity.',
+        text: 'How the product is built and the decisions behind its running cost: browser speech, one WebSocket, FastAPI, Postgres, and two delivery routes, a PWA and an Android Trusted Web Activity.',
       },
     ],
     comparison: {

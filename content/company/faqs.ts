@@ -54,6 +54,7 @@ export const faqGroups: FaqGroup[] = [
       },
       {
         q: 'Can you work on an existing product or codebase?',
+        // VERIFY: that the studio takes over code built by other teams (see the VERIFY on the maintenance page in services/build.ts)
         a: 'Yes, once we have reviewed it. We read the code, the architecture and the hosting setup, then tell you plainly what is sound, what is risky and whether it makes more sense to build on it, refactor it or rebuild parts of it. The review is part of our technical consulting, and it comes before any commitment to build.',
       },
       {

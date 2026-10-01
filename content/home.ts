@@ -18,6 +18,7 @@ export const processSteps: Step[] = [
   { title: 'Scope & estimate', body: 'A written scope with milestones, a fixed quote or a time-and-materials estimate, and the risks we see.' },
   // VERIFY: sprint cadence (one to two weeks)
   { title: 'Design & build', body: 'Short sprints, with a working build to review every one to two weeks.' },
+  // VERIFY: store submission as part of every launch (store-launch delivery is unconfirmed; see the VERIFY on the mobile app page in registry.ts)
   { title: 'Launch', body: 'Testing, deployment, store submission and monitoring set up before go-live.' },
   { title: 'Support & grow', body: 'Fixes, improvements and a handover your team can follow.' },
 ];
