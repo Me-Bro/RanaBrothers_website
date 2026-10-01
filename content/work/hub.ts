@@ -15,6 +15,12 @@ export const workHub: HubContent = {
       ],
     },
     {
+      title: 'Other products we have built',
+      body: [
+        'Vibhanshu built two more products that do not have case studies yet. CloudDocSense is a retrieval-augmented document-intelligence system: it answers questions from a set of documents and shows the sources behind each answer. RootEd is a multi-tenant school management platform, one platform serving many schools, built with React, Node.js, MongoDB and Docker. Ask us about either on a call.',
+      ],
+    },
+    {
       title: 'Why the case studies are about our own products',
       body: [
         // VERIFY: confirm past client engagements a prospect could be referred to

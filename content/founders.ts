@@ -22,7 +22,7 @@ export const founders: Record<FounderId, Founder> = {
     url: 'https://vibhanshu.ranabrothers.online',
     aboutUrl: 'https://vibhanshu.ranabrothers.online',
     // VERIFY: Vibhanshu confirms this bio and title, and adds the #person @id to his own site
-    bio: 'Vibhanshu leads engineering. His stack spans Python, Ruby on Rails, Node.js and React/Next.js, and he builds retrieval-augmented AI systems on vector search, among them CloudDocSense, which answers questions from documents and shows its sources. MCA, NIT Raipur.',
+    bio: 'Vibhanshu leads engineering. His stack spans Python, Ruby on Rails, Node.js and React/Next.js. He builds retrieval-augmented AI systems on vector search, among them CloudDocSense, which answers questions from documents and shows its sources, and he built RootEd, a multi-tenant school management platform. MCA, NIT Raipur.',
   },
   david: {
     id: 'david',

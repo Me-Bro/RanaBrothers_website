@@ -312,6 +312,11 @@ export const buildServices: ServiceContent[] = [
         href: 'https://ranabrothers.online/edgeverify/',
         text: 'Backtesting and live paper trading across Indian stocks, indices and crypto, in beta and built solo by David. Its warnings cover survivorship bias and any sample of under 30 trades, which is the behaviour a research tool needs.',
       },
+      {
+        label: 'RootEd, a multi-tenant school platform',
+        href: '/work',
+        text: 'Built by Vibhanshu with React, Node.js, MongoDB and Docker, RootEd is one platform that serves many schools. Serving many organisations from one deployment is the central design question in most business web apps.',
+      },
     ],
     comparison: {
       caption: 'Website or web application: how to tell them apart',
