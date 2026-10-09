@@ -17,7 +17,7 @@
     "check:content": "node scripts/check-content.mjs",
     "check:launch": "node scripts/check-content.mjs --strict",
     "check:seo": "node scripts/check-seo.mjs",
-    "assets": "node scripts/brand-assets.mjs && node scripts/brand-logo.mjs && node scripts/og-images.mjs",
+    "assets": "node scripts/brand-assets.mjs && node scripts/brand-logo.mjs && node scripts/rooted-logo.mjs && node scripts/og-images.mjs",
     "og": "node scripts/og-images.mjs",
     "verify": "npm run lint && npm test && npm run guard && npm run check:content && npm run build && npm run typecheck",
     "prepare": "node scripts/setup-hooks.mjs"
