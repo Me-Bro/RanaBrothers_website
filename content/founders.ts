@@ -17,7 +17,7 @@ export const founders: Record<FounderId, Founder> = {
     id: 'vibhanshu',
     name: 'Vibhanshu Rana',
     firstName: 'Vibhanshu',
-    role: 'Co-Founder & CTO',
+    role: 'Technical Co-Founder',
     personId: 'https://vibhanshu.ranabrothers.online/#person',
     url: 'https://vibhanshu.ranabrothers.online',
     aboutUrl: 'https://vibhanshu.ranabrothers.online',

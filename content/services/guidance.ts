@@ -11,7 +11,7 @@ export const guidanceServices: ServiceContent[] = [
       'Technical advice before you spend: tech stack and architecture choices, build-or-buy decisions, discovery and technical due diligence.',
     intro: [
       'Software development consulting is technical advice you can act on, given before you commit money to a build, a vendor or a platform. It settles questions that are cheap to answer early and costly to reverse later. Typical ones: which tech stack fits the product, whether to build or buy, and whether a development quote is sound.',
-      'We act as the technical counterpart for founders and small businesses that have no senior engineer in the room. The founders, Vibhanshu Rana (Co-Founder & CTO) and David Singh Rana (Technical Co-Founder), work on client projects directly, so the advice comes from people who build and run production software. We are based in Khatima, Uttarakhand, India, and work remotely.',
+      'We act as the technical counterpart for founders and small businesses that have no senior engineer in the room. The founders, Vibhanshu Rana and David Singh Rana, both Technical Co-Founders, work on client projects directly, so the advice comes from people who build and run production software. We are based in Khatima, Uttarakhand, India, and work remotely.',
       'Our work is written down. You receive a recommendation you can hand to an investor, a developer or a co-founder. It names the options we rejected as well as the one we chose, and it separates what we measured from what we assumed. That is what we mean by no black boxes.',
     ],
     forWho: [

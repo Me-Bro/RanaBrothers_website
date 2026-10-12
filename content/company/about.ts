@@ -2,7 +2,7 @@ import type { AboutContent } from '@/content/types';
 
 export const about: AboutContent = {
   story: [
-    'Rana Brothers is a software and AI development studio run by brothers Vibhanshu Rana and David Singh Rana in Khatima, Uttarakhand. Vibhanshu is Co-Founder and CTO, and David is Technical Co-Founder. We both work on client projects directly, so the people you talk to about your project are the people working on it. Between us we cover front-end and back-end development, cloud infrastructure and AI engineering.',
+    'Rana Brothers is a software and AI development studio run by brothers Vibhanshu Rana and David Singh Rana in Khatima, Uttarakhand. Both are Technical Co-Founders. We both work on client projects directly, so the people you talk to about your project are the people working on it. Between us we cover front-end and back-end development, cloud infrastructure and AI engineering.',
     'We build web and mobile apps, dashboards and internal tools, along with the cloud and microservices architecture behind them. For startups, we build MVPs. We automate repetitive work, add AI features such as document question-answering and language-model integrations where they help, and advise on architecture, performance and technology choices. After launch, we support the product and pass on knowledge to your team.',
     'We work remotely, and we put decisions in writing. We agree the scope with you before we start, build in small steps you can see, and keep documentation where you can read it. When a careful choice and a fast one conflict, we recommend the careful one and explain the trade-off. We design systems to grow with the product, so early decisions do not force a rewrite later.',
     'We also design, build and run our own products. It is the best way to learn what things cost, what breaks and what is worth maintaining, and it keeps our advice grounded. DuSu, built by David, is a voice-first AI English-speaking coach for Indian, mobile-first learners. It is in live beta, with a running cost of about $0 a month and a language-model chain ordered by measured latency. Edge Verify, founded and built by David and now in beta, is a backtesting and paper-trading platform for Indian stocks, indices and crypto. It rules out same-candle and look-ahead execution, and it warns when a sample has fewer than 30 trades. It is research tooling, not investment advice. CloudDocSense, built by Vibhanshu, is a retrieval-augmented document-intelligence system that answers with cited sources. RootEd, also built by Vibhanshu, is a multi-tenant school management platform, one platform serving many schools, built with React, Node.js, MongoDB and Docker and live at rooted.ranabrothers.online. Our case studies describe how DuSu and Edge Verify were built.',
@@ -31,7 +31,7 @@ export const about: AboutContent = {
   ],
   quickFacts: [
     { label: 'Based in', value: 'Khatima, Uttarakhand, India' },
-    { label: 'Founded by', value: 'Vibhanshu Rana (Co-Founder & CTO) and David Singh Rana (Technical Co-Founder)' },
+    { label: 'Founded by', value: 'Vibhanshu Rana and David Singh Rana, both Technical Co-Founders' },
     { label: 'Focus', value: 'Web and mobile apps, cloud and microservices, MVPs, automation, AI features and technical consulting' },
     { label: 'Products', value: 'DuSu, Edge Verify (beta), CloudDocSense and RootEd' },
     { label: 'Works with', value: 'Startups and growing businesses, remotely' },
@@ -39,7 +39,7 @@ export const about: AboutContent = {
   quickAnswers: [
     {
       q: 'Who runs Rana Brothers?',
-      a: 'Brothers Vibhanshu Rana (Co-Founder and CTO) and David Singh Rana (Technical Co-Founder) run the studio. Both work on client projects directly.',
+      a: 'Brothers Vibhanshu Rana and David Singh Rana, both Technical Co-Founders, run the studio. Both work on client projects directly.',
     },
     {
       q: 'Where are you based?',
