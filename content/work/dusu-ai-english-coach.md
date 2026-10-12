@@ -1,4 +1,4 @@
-DuSu is a voice-first AI English-speaking coach app for Indian, mobile-first learners, built at Rana Brothers. At the time of writing it has 200+ users and costs about $0 a month to run. This case study covers the problem, the architecture, the decisions that keep DuSu fast and cheap, and the parts that are still hard. You can try the product at [dusu.ranabrothers.online](https://dusu.ranabrothers.online).
+DuSu is a voice-first AI English-speaking coach app for Indian, mobile-first learners, built at Rana Brothers. At the time of writing it is in live beta and costs about $0 a month to run. This case study covers the problem, the architecture, the decisions that keep DuSu fast and cheap, and the parts that are still hard. You can try the product at [dusu.ranabrothers.online](https://dusu.ranabrothers.online).
 
 ## The problem
 
@@ -17,7 +17,7 @@ The audience is Indian learners who reach for their phone first. That shapes the
 - Two languages: Learn mode takes Hindi or Hinglish and answers in English.
 - Continuity: a level test on the CEFR scale (A0 to B2), a 7-level roadmap, XP, streaks and learner memory carry progress from one session to the next.
 - Honest feedback: Interview mode scores answers, and every score is labelled AI-estimated.
-- Cheap to run: about $0 a month at 200+ users.
+- Cheap to run: about $0 a month in live beta.
 
 CEFR is the Common European Framework of Reference for Languages, a scale for describing language proficiency.
 
@@ -62,7 +62,7 @@ The trade-off: three integrations to maintain, and three models that behave diff
 
 ### Keep AI costs low as usage grows
 
-Move usage-billed work off the studio's account. The browser's built-in speech service handles speech, so there is no hosted speech service to pay for. Language-model calls use bring-your-own keys, so quota and billing sit with whoever holds the key. In a voice product those are the two places where cost normally grows with minutes of practice. Together with a deliberately small backend, moving them keeps DuSu's running cost at about $0 a month with 200+ users.
+Move usage-billed work off the studio's account. The browser's built-in speech service handles speech, so there is no hosted speech service to pay for. Language-model calls use bring-your-own keys, so quota and billing sit with whoever holds the key. In a voice product those are the two places where cost normally grows with minutes of practice. Together with a deliberately small backend, moving them keeps DuSu's running cost at about $0 a month.
 
 The trade-off: friction. Someone has to obtain a provider key and add it, which is a harder start than signing in and talking. Keys are credentials and need careful handling. We chose a cost that does not track usage over the easiest possible onboarding. Hosting and the database are the costs we would watch as numbers climb.
 
@@ -92,7 +92,7 @@ The facts at the time of writing:
 
 | Measure | Value |
 | --- | --- |
-| Users | 200+ |
+| Status | Live beta |
 | Running cost | About $0 per month |
 | Learning modes | 4: Talk, Interview, Learn, Daily Talk |
 | Level test and roadmap | CEFR A0–B2 test, 7-level roadmap |
@@ -100,7 +100,7 @@ The facts at the time of writing:
 | LLM providers in the chain | 3: Groq, Gemini, OpenRouter |
 | Ships as | PWA and Android Trusted Web Activity |
 
-Read these for what they are. A base of 200+ users shows that the cost design holds at that size. It does not prove that it holds at every size. We make no claim about learning outcomes: the scores are AI-estimated practice feedback, not a certified assessment.
+Read these for what they are. The live beta shows that the cost design holds at its current size. It does not prove that it holds at every size. We make no claim about learning outcomes: the scores are AI-estimated practice feedback, not a certified assessment.
 
 ## What we would do next
 

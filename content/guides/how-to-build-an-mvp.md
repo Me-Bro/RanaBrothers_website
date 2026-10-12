@@ -89,7 +89,7 @@ Sometimes. If a no-code tool lets you run the test you designed, use it: it is t
 
 Whatever you choose, ask three questions first. Can I export every record in a standard format? Whose name is on the accounts? What happens if the vendor changes its pricing or closes? Move to custom code when the tool's limits, not your idea, are what you are fighting.
 
-Custom does not have to mean heavy. DuSu, the voice-first English coach David built at Rana Brothers (see the [case study](/work/dusu-ai-english-coach)), uses browser Web Speech for speech-to-text and text-to-speech, and reaches Android as a web app in a Trusted Web Activity. It has 200+ users and runs at about $0 a month. Choosing which parts to build and which to borrow is a tech-stack decision, the kind our [software consulting](/services/software-consulting) work covers.
+Custom does not have to mean heavy. DuSu, the voice-first English coach David built at Rana Brothers (see the [case study](/work/dusu-ai-english-coach)), uses browser Web Speech for speech-to-text and text-to-speech, and reaches Android as a web app in a Trusted Web Activity. It is in live beta and runs at about $0 a month. Choosing which parts to build and which to borrow is a tech-stack decision, the kind our [software consulting](/services/software-consulting) work covers.
 
 ## Step 4: Design the flow and test a prototype
 

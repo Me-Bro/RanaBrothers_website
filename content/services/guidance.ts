@@ -11,7 +11,7 @@ export const guidanceServices: ServiceContent[] = [
       'Technical advice before you spend: tech stack and architecture choices, build-or-buy decisions, discovery and technical due diligence.',
     intro: [
       'Software development consulting is technical advice you can act on, given before you commit money to a build, a vendor or a platform. It settles questions that are cheap to answer early and costly to reverse later. Typical ones: which tech stack fits the product, whether to build or buy, and whether a development quote is sound.',
-      'We act as the technical counterpart for founders and small businesses that have no senior engineer in the room. The founders, Vibhanshu Rana (Co-Founder & CTO) and David Singh Rana (Co-Founder & COO), work on client projects directly, so the advice comes from people who build and run production software. We are based in Khatima, Uttarakhand, India, and work remotely.',
+      'We act as the technical counterpart for founders and small businesses that have no senior engineer in the room. The founders, Vibhanshu Rana (Co-Founder & CTO) and David Singh Rana (Technical Co-Founder), work on client projects directly, so the advice comes from people who build and run production software. We are based in Khatima, Uttarakhand, India, and work remotely.',
       'Our work is written down. You receive a recommendation you can hand to an investor, a developer or a co-founder. It names the options we rejected as well as the one we chose, and it separates what we measured from what we assumed. That is what we mean by no black boxes.',
     ],
     forWho: [
@@ -73,7 +73,7 @@ export const guidanceServices: ServiceContent[] = [
       {
         label: 'DuSu: a stack sized to its running cost',
         href: '/work/dusu-ai-english-coach',
-        text: "DuSu helps mobile-first learners in India practise spoken English by voice. David Singh Rana built it, and it has 200+ users and a running cost of about $0/month. Its stack shows the trade-offs we weigh. Browser Web Speech handles speech, so no audio reaches DuSu's servers and speech costs nothing to run. A FastAPI backend serves one WebSocket, with Postgres behind it. One vanilla-JS file ships as a PWA and an Android Trusted Web Activity. LLM calls fail over from Groq to Gemini to OpenRouter, ordered by measured latency.",
+        text: "DuSu helps mobile-first learners in India practise spoken English by voice. David Singh Rana built it; it is in live beta with a running cost of about $0/month. Its stack shows the trade-offs we weigh. Browser Web Speech handles speech, so no audio reaches DuSu's servers and speech costs nothing to run. A FastAPI backend serves one WebSocket, with Postgres behind it. One vanilla-JS file ships as a PWA and an Android Trusted Web Activity. LLM calls fail over from Groq to Gemini to OpenRouter, ordered by measured latency.",
       },
       {
         label: 'Edge Verify: assumptions stated, then stress-tested',
@@ -214,7 +214,7 @@ export const guidanceServices: ServiceContent[] = [
       {
         label: 'DuSu: cost and failure designed in',
         href: '/work/dusu-ai-english-coach',
-        text: "DuSu, built by David Singh Rana, coaches spoken English by voice for mobile-first learners in India. It has 200+ users and a running cost of about $0/month. The decisions a CTO owns are visible in it. LLM providers sit in a failover chain (Groq, then Gemini, then OpenRouter) ordered by measured latency, and users can bring their own keys. Speech-to-text and text-to-speech come from the browser's built-in speech service, so no audio reaches DuSu's servers and speech costs nothing to run. One web app ships as a PWA and as an Android Trusted Web Activity.",
+        text: "DuSu, built by David Singh Rana, coaches spoken English by voice for mobile-first learners in India. It is in live beta with a running cost of about $0/month. The decisions a CTO owns are visible in it. LLM providers sit in a failover chain (Groq, then Gemini, then OpenRouter) ordered by measured latency, and users can bring their own keys. Speech-to-text and text-to-speech come from the browser's built-in speech service, so no audio reaches DuSu's servers and speech costs nothing to run. One web app ships as a PWA and as an Android Trusted Web Activity.",
       },
     ],
     comparison: {
@@ -358,7 +358,7 @@ export const guidanceServices: ServiceContent[] = [
       {
         label: 'DuSu: built to survive a failing dependency',
         href: '/work/dusu-ai-english-coach',
-        text: "DuSu is an AI coach for spoken English, built by David Singh Rana, with 200+ users and a running cost of about $0/month. Its architecture answers the questions we ask in an audit: what happens when a dependency is slow or down, and what does each user cost? LLM providers sit in a failover chain (Groq, then Gemini, then OpenRouter) ordered by measured latency. Browser Web Speech handles speech, so speech adds nothing to the bill and no audio reaches DuSu's servers. Scores are labelled AI-estimated, so the product does not claim more certainty than it has.",
+        text: "DuSu is an AI coach for spoken English, built by David Singh Rana, in live beta with a running cost of about $0/month. Its architecture answers the questions we ask in an audit: what happens when a dependency is slow or down, and what does each user cost? LLM providers sit in a failover chain (Groq, then Gemini, then OpenRouter) ordered by measured latency. Browser Web Speech handles speech, so speech adds nothing to the bill and no audio reaches DuSu's servers. Scores are labelled AI-estimated, so the product does not claim more certainty than it has.",
       },
     ],
     comparison: {

@@ -131,7 +131,7 @@ export const buildServices: ServiceContent[] = [
       'Installable web apps and Android apps with the backend behind them, plus an honest comparison of native iOS and cross-platform routes.',
     intro: [
       'Mobile app development is the design, build and release of software that people install on their phones, together with the backend, data and admin tools behind it. We are a mobile app development company in India, working remotely from Khatima, Uttarakhand.',
-      'The route we have shipped is an installable web app (a PWA) paired with an Android Trusted Web Activity (TWA). A TWA is a thin Android app that opens your web app full-screen in the browser engine, so it installs and launches like any other app. DuSu, the English-speaking coach David built for mobile-first learners in India, is delivered this way and has 200+ users. Its Android app is written in Kotlin.',
+      'The route we have shipped is an installable web app (a PWA) paired with an Android Trusted Web Activity (TWA). A TWA is a thin Android app that opens your web app full-screen in the browser engine, so it installs and launches like any other app. DuSu, the English-speaking coach David built for mobile-first learners in India, is delivered this way and is in live beta. Its Android app is written in Kotlin.',
       'Native iOS, Flutter and React Native are real options, and we discuss them openly instead of defaulting to one. Where a requirement goes beyond what we have shipped, we say so before you commit. Choosing the delivery route is the first decision, and it shapes cost, speed and what your users can do.',
     ],
     forWho: [
@@ -176,7 +176,7 @@ export const buildServices: ServiceContent[] = [
       {
         label: 'DuSu: a PWA and an Android TWA',
         href: '/work/dusu-ai-english-coach',
-        text: 'A voice-first AI speaking coach that helps learners in India practise English on their phones, with 200+ users. One single-file web app reaches phones in two forms: a PWA, and an Android app built as a Trusted Web Activity in Kotlin. FastAPI, one WebSocket and Postgres sit behind it. The case study explains the decisions.',
+        text: 'A voice-first AI speaking coach that helps learners in India practise English on their phones, now in live beta. One single-file web app reaches phones in two forms: a PWA, and an Android app built as a Trusted Web Activity in Kotlin. FastAPI, one WebSocket and Postgres sit behind it. The case study explains the decisions.',
       },
       {
         label: 'Open DuSu on your phone',
@@ -243,7 +243,7 @@ export const buildServices: ServiceContent[] = [
       'Web application development is the practice of building software that runs in the browser and does work for its users: they sign in, create and change data, and see results that depend on who they are. We are a web application development company working remotely from Khatima, Uttarakhand, India.',
       'We build customer portals, dashboards, internal tools and progressive web apps (PWAs). The front end is React or Next.js with TypeScript. Behind it sit Node.js or Python services and a Postgres database. We choose a stack your team can maintain, not the one that is fashionable this year. We also choose the rendering model page by page: static where content rarely changes, server-rendered where search visibility matters, client-side where the page is a working tool.',
       // VERIFY: confirm past client engagements a prospect could be referred to
-      'Two products show the range. DuSu is a voice-first coach delivered as a web app, a PWA and an Android package, with 200+ users. Edge Verify is a data-heavy backtesting and paper-trading platform, in beta. David built both, and both follow the same habit we bring to client work: a small, well-understood architecture with room to grow.',
+      'Two products show the range. DuSu is a voice-first coach delivered as a web app, a PWA and an Android package, now in live beta. Edge Verify is a data-heavy backtesting and paper-trading platform, in beta. David built both, and both follow the same habit we bring to client work: a small, well-understood architecture with room to grow.',
     ],
     forWho: [
       'Companies whose customers or partners need to sign in, see their own data and act on it.',
@@ -305,7 +305,7 @@ export const buildServices: ServiceContent[] = [
       {
         label: 'DuSu: a voice-first web app',
         href: '/work/dusu-ai-english-coach',
-        text: 'A single-file vanilla-JS web app with a FastAPI backend, one WebSocket and Postgres, serving four practice modes. The same code reaches users as a PWA and, wrapped in Kotlin, as an Android Trusted Web Activity. 200+ users rely on it.',
+        text: 'A single-file vanilla-JS web app with a FastAPI backend, one WebSocket and Postgres, serving four practice modes. The same code reaches users as a PWA and, wrapped in Kotlin, as an Android Trusted Web Activity. It is in live beta.',
       },
       {
         label: 'Edge Verify, a data-heavy web platform',
@@ -352,7 +352,7 @@ export const buildServices: ServiceContent[] = [
       },
       {
         q: 'How much does a web application cost?',
-        a: 'It depends on scope, so we price only once a written scope exists. Price depends on the number of user roles, distinct workflows, integrations and data migrations, and on how much must update in real time or work offline. Running cost follows design too: a product with 200+ users can cost about $0 a month to run, as DuSu does. Compare quotes on what they include, such as authentication, testing, deployment and documentation, not only the headline figure.',
+        a: 'It depends on scope, so we price only once a written scope exists. Price depends on the number of user roles, distinct workflows, integrations and data migrations, and on how much must update in real time or work offline. Running cost follows design too: a live product can cost about $0 a month to run, as DuSu does. Compare quotes on what they include, such as authentication, testing, deployment and documentation, not only the headline figure.',
       },
       {
         q: 'Can a web app work offline?',
@@ -372,7 +372,7 @@ export const buildServices: ServiceContent[] = [
     intro: [
       'MVP development is the work of designing and building a minimum viable product: the smallest live product that lets real users complete one valuable job, so you can test an assumption before paying to build the rest. We are an MVP development company that works with founders from the first scoping conversation through launch and the learning that follows.',
       'An MVP is not a prototype, and it is not a cut-down copy of the final product. It is real software with real users and real data, covering one core journey. The discipline lies in deciding what to leave out and writing down how you will know whether it worked.',
-      'We build MVPs on foundations meant to grow: a sound data model, tests around the core journey and documented deployment. DuSu shows what a small architecture can carry: a single-file web app, a FastAPI backend with one WebSocket, and Postgres serve four practice modes and 200+ users.',
+      'We build MVPs on foundations meant to grow: a sound data model, tests around the core journey and documented deployment. DuSu shows what a small architecture can carry: a single-file web app, a FastAPI backend with one WebSocket, and Postgres serve four practice modes in a live beta.',
     ],
     forWho: [
       'Founders with a validated problem and no product yet, who need something real in users’ hands.',
@@ -428,7 +428,7 @@ export const buildServices: ServiceContent[] = [
     ],
     proof: [
       {
-        label: 'DuSu: a focused product with 200+ users',
+        label: 'DuSu: a focused product in live beta',
         href: '/work/dusu-ai-english-coach',
         text: 'An AI English-speaking coach that works by voice, built for mobile-first learners in India. One small architecture covers four modes (Talk, Interview, Learn and Daily Talk), a CEFR A0–B2 level test, a 7-level roadmap and learner memory, and runs at about $0 a month.',
       },
@@ -500,7 +500,7 @@ export const buildServices: ServiceContent[] = [
       'Docker, CI/CD, monitoring and cost-aware hosting on Cloudflare, Vercel and Render, sized for startups and small teams rather than enterprises.',
     intro: [
       'Cloud and DevOps work covers everything between a developer’s laptop and a reliable running product: where the app is hosted, how code reaches production, how you find out when something breaks and what all of it costs each month. Our cloud and DevOps services for startups aim to make releases routine and the bill understandable.',
-      'We deploy on Cloudflare, Vercel and Render, package services with Docker and keep data in Postgres. That combination can carry an early product at a modest running cost: DuSu serves 200+ users at about $0 a month. We start with the simplest setup that meets your needs, because every extra moving part is something a person has to operate.',
+      'We deploy on Cloudflare, Vercel and Render, package services with Docker and keep data in Postgres. That combination can carry an early product at a modest running cost: DuSu runs its live beta at about $0 a month. We start with the simplest setup that meets your needs, because every extra moving part is something a person has to operate.',
       'We also design cloud and microservices architectures, and we are cautious with them. A well-structured single service is easier to run than five services split too early. We separate services when there is a reason, such as independent scaling or separate team ownership, and not before.',
     ],
     forWho: [
@@ -552,7 +552,7 @@ export const buildServices: ServiceContent[] = [
         text: 'Backtests run on eight years of five-minute NSE candles across 428 equity symbols. Stress tests include Monte-Carlo runs and 2×/3× slippage, and paper trading runs live on NSE prices. A workload like this makes storage layout, compute cost and reliability real design decisions.',
       },
       {
-        label: 'DuSu: about $0 a month for 200+ users',
+        label: 'DuSu: about $0 a month to run',
         href: 'https://dusu.ranabrothers.online',
         text: 'A cost-aware design in production. The server side is FastAPI with one WebSocket and Postgres, and providers are tried in order of measured latency: Groq, then Gemini, then OpenRouter, with users able to bring their own keys.',
       },
@@ -614,7 +614,7 @@ export const buildServices: ServiceContent[] = [
       'Bug fixes, security and dependency updates, monitoring and small improvements for software we built or inherited, under a written scope.',
     intro: [
       'Software maintenance and support services keep a live product secure, compatible and useful after launch: fixing bugs, applying security patches, updating dependencies and platform versions, watching the system and shipping small improvements. We support software after launch, with documentation and knowledge transfer so that your own team can take over whenever you choose.',
-      'Software does not stay finished. Browsers, operating systems, libraries and the third-party services you depend on change underneath it, and an unmaintained product slowly stops working. DuSu is a live product with 200+ users and about $0 a month in running cost. Keeping a product like that healthy is a matter of habit: watch it, update it and fix what real users hit.',
+      'Software does not stay finished. Browsers, operating systems, libraries and the third-party services you depend on change underneath it, and an unmaintained product slowly stops working. DuSu is a live product, in beta, with about $0 a month in running cost. Keeping a product like that healthy is a matter of habit: watch it, update it and fix what real users hit.',
       // VERIFY: confirm the studio takes over maintenance of software built by other teams; this also covers the "original developer has moved on" audience line and the "Can you maintain an app another company built?" answer.
       'We maintain software we built and software other teams built. For an inherited codebase we start with a review of the code, hosting and deployment, tell you what we find and agree what is covered before we take it on. We are most at home in React, Next.js, Node.js, Python, FastAPI and Ruby on Rails with Postgres. If your software is on something else, we say so after the review.',
     ],
@@ -679,7 +679,7 @@ export const buildServices: ServiceContent[] = [
       {
         label: 'DuSu in operation',
         href: 'https://dusu.ranabrothers.online',
-        text: 'A live product with 200+ users and about $0 a month in running cost. It has several moving parts to keep healthy: a PWA, an Android Trusted Web Activity, a FastAPI backend, a WebSocket, Postgres and a chain of three LLM providers.',
+        text: 'A live product in beta, with about $0 a month in running cost. It has several moving parts to keep healthy: a PWA, an Android Trusted Web Activity, a FastAPI backend, a WebSocket, Postgres and a chain of three LLM providers.',
       },
       {
         label: 'DuSu case study',

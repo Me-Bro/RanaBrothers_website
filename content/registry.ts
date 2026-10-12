@@ -300,7 +300,7 @@ export const pages: PageEntry[] = [
     label: 'DuSu',
     title: 'DuSu Case Study: AI English-Speaking Coach | Rana Brothers',
     description:
-      'How we built DuSu, a voice-first AI English coach with 200+ users: browser speech, FastAPI and a multi-provider LLM chain with latency failover.',
+      'How we built DuSu, a voice-first AI English coach in live beta: browser speech, FastAPI and a multi-provider LLM chain with latency failover.',
     h1: 'DuSu: building a voice-first AI English-speaking coach',
     kind: 'case-study',
     primaryKeyword: 'AI English-speaking coach',

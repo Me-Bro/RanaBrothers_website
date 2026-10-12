@@ -341,7 +341,7 @@ export const aiPages: ServiceContent[] = [
       {
         label: 'DuSu: a provider chain ordered by measured latency',
         href: '/work/dusu-ai-english-coach',
-        text: "DuSu's language-model calls follow a chain: Groq first, then Gemini, then OpenRouter, an order set by measured latency rather than by preference. Users can bring their own provider keys, so usage on those requests is billed to their accounts. The interview scores the models produce are labelled AI-estimated instead of presented as fact. DuSu has 200+ users and about $0/month running cost.",
+        text: "DuSu's language-model calls follow a chain: Groq first, then Gemini, then OpenRouter, an order set by measured latency rather than by preference. Users can bring their own provider keys, so usage on those requests is billed to their accounts. The interview scores the models produce are labelled AI-estimated instead of presented as fact. DuSu is in live beta and runs at about $0/month.",
       },
     ],
     comparison: {
@@ -391,7 +391,7 @@ export const aiPages: ServiceContent[] = [
       },
       {
         q: 'How much do LLM APIs cost per month?',
-        a: "The bill is roughly requests per month, multiplied by tokens per request, multiplied by the provider's per-token price. It can be negligible for an internal tool and significant for a busy consumer feature. Output tokens are usually priced higher than input tokens, and a chat resends its history on every turn, so long conversations cost more per message. Prices change often, so we do not print them here. We estimate from your expected traffic and measured token counts, then set limits to match. DuSu runs at about $0/month with 200+ users.",
+        a: "The bill is roughly requests per month, multiplied by tokens per request, multiplied by the provider's per-token price. It can be negligible for an internal tool and significant for a busy consumer feature. Output tokens are usually priced higher than input tokens, and a chat resends its history on every turn, so long conversations cost more per message. Prices change often, so we do not print them here. We estimate from your expected traffic and measured token counts, then set limits to match. DuSu, in live beta, runs at about $0/month.",
       },
       {
         q: 'How do you control AI cost and latency?',
@@ -415,7 +415,7 @@ export const aiPages: ServiceContent[] = [
       'Generative AI products from idea to launch: AI MVPs and voice-first apps built end to end, the way we built our AI English coach, DuSu.',
     intro: [
       'AI app development is the end-to-end work of turning an idea into a launched product whose core value comes from a model: a generative AI app, an AI MVP or a voice-first experience. It covers the interface, backend, data, evaluation and release, not only the model call.',
-      'DuSu is the clearest example we can show. David built it at Rana Brothers as a spoken-English coach for learners in India who mostly use their phones. It has 200+ users and about $0/month running cost, and it runs as an installable web app and as an Android app. Its interview mode returns a scored report that is labelled AI-estimated.',
+      'DuSu is the clearest example we can show. David built it at Rana Brothers as a spoken-English coach for learners in India who mostly use their phones. It is in live beta at about $0/month running cost, and it runs as an installable web app and as an Android app. Its interview mode returns a scored report that is labelled AI-estimated.',
       'An AI product is still a product. When you choose an AI app development company, look at how it handles the usual questions. Who is the product for? What is the smallest version that proves the idea? What does each user cost to serve? How will you know it works? We answer those first and bring in AI where it measurably helps.',
     ],
     forWho: [
@@ -555,7 +555,7 @@ export const aiPages: ServiceContent[] = [
       },
       {
         q: "How do you keep an AI app's running costs low?",
-        a: "By designing the cost in from the start: choose the smallest model that passes your tests, send fewer tokens, let the user's browser do work it already can, such as speech, and cap what any account can spend. DuSu applies two of these levers: the browser's built-in speech service handles its speech, and users can bring their own provider keys. Its provider chain is ordered by measured latency. It runs at about $0/month for 200+ users. The lever table on this page gives the full list and the trade-off of each.",
+        a: "By designing the cost in from the start: choose the smallest model that passes your tests, send fewer tokens, let the user's browser do work it already can, such as speech, and cap what any account can spend. DuSu applies two of these levers: the browser's built-in speech service handles its speech, and users can bring their own provider keys. Its provider chain is ordered by measured latency. It runs at about $0/month. The lever table on this page gives the full list and the trade-off of each.",
       },
       {
         q: 'Can you build voice AI in Indian languages?',

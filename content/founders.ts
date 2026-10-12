@@ -28,11 +28,11 @@ export const founders: Record<FounderId, Founder> = {
     id: 'david',
     name: 'David Singh Rana',
     firstName: 'David',
-    role: 'Co-Founder & COO',
+    role: 'Technical Co-Founder',
     personId: 'https://david.ranabrothers.online/#person',
     url: 'https://david.ranabrothers.online',
     aboutUrl: 'https://david.ranabrothers.online/about',
-    bio: 'David leads strategy, client relationships and delivery, and works hands-on across backend, DevOps and AI features. His products include DuSu, a voice-first AI coach for spoken English used by 200+ people, and Edge Verify, which tests trading strategies against eight years of NSE price data at five-minute resolution before any money is at risk.',
+    bio: 'David works hands-on across backend, DevOps and AI features, and leads strategy, client relationships and delivery. His products include DuSu, a voice-first AI coach for spoken English, now in live beta, and Edge Verify, which tests trading strategies against eight years of NSE price data at five-minute resolution before any money is at risk.',
   },
 };
 
