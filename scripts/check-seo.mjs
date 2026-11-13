@@ -13,6 +13,7 @@ export const MIN_WORDS = {
   service: 900,
   'case-study': 900,
   guide: 1200,
+  blog: 600,
   about: 500,
   process: 400,
   faq: 500,
@@ -141,7 +142,7 @@ export function checkSite(outDir, pages, externalPaths = new Set()) {
   if (!existsSync(llmsFile)) problems.push('llms.txt is missing');
   else {
     const llms = readFileSync(llmsFile, 'utf8');
-    for (const hub of ['/services', '/ai', '/work', '/guides']) {
+    for (const hub of ['/services', '/ai', '/work', '/guides', '/blog']) {
       if (registryPaths.has(hub) && !llms.includes(absoluteUrl(hub))) problems.push(`llms.txt does not list ${hub}`);
     }
   }

@@ -8,7 +8,7 @@ export function pageMeta(path: string): Metadata {
   const page = pageFor(path);
   const url = absoluteUrl(page.path);
   const image = { url: ogImagePath(page.path), width: 1200, height: 630, alt: page.title };
-  const isArticle = page.kind === 'guide' || page.kind === 'case-study';
+  const isArticle = page.kind === 'guide' || page.kind === 'blog' || page.kind === 'case-study';
   return {
     title: { absolute: page.title },
     description: page.description,

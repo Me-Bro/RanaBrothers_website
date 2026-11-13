@@ -17,14 +17,14 @@ const existing = (paths: string[]) => paths.filter(hasPage).map(link);
 export const groupLinks = (group: NavGroup): NavLink[] => pagesInGroup(group).map((p) => ({ href: p.path, label: p.label }));
 
 /** Plain header links after the Services and AI menus. */
-export const primaryLinks = (): NavLink[] => existing(['/work', '/guides', '/about']);
+export const primaryLinks = (): NavLink[] => existing(['/work', '/guides', '/blog', '/about']);
 
 export function footerColumns(): NavColumn[] {
   const columns: NavColumn[] = [
     { title: 'Build', links: groupLinks('build') },
     { title: 'Guidance', links: groupLinks('guidance') },
     { title: 'AI', links: existing(['/ai']).concat(groupLinks('ai')) },
-    { title: 'Company', links: existing(['/work', '/process', '/about', '/guides', '/faq', '/contact', '/privacy', '/terms']) },
+    { title: 'Company', links: existing(['/work', '/process', '/about', '/guides', '/blog', '/faq', '/contact', '/privacy', '/terms']) },
   ];
   return columns.filter((c) => c.links.length > 0);
 }

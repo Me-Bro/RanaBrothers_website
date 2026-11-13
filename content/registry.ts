@@ -6,6 +6,7 @@ export type PageKind =
   | 'service'
   | 'case-study'
   | 'guide'
+  | 'blog'
   | 'about'
   | 'process'
   | 'faq'
@@ -369,6 +370,36 @@ export const pages: PageEntry[] = [
     updated: D,
     parent: '/guides',
     author: 'david',
+  },
+
+  // Blog
+  {
+    path: '/blog',
+    label: 'Blog',
+    title: 'Blog: Software and AI Notes | Rana Brothers',
+    description:
+      'Notes from the engineers at Rana Brothers on software, AI and building products: what we are watching and what it means for founders and teams.',
+    h1: 'Blog',
+    kind: 'hub',
+    primaryKeyword: 'software and AI blog',
+    secondaryKeywords: ['AI development blog', 'software development blog for founders'],
+    published: '2026-11-13',
+    updated: '2026-11-13',
+  },
+  {
+    path: '/blog/ai-bubble-technology-is-not-the-business',
+    label: 'The AI bubble',
+    title: 'The AI Bubble: The Technology Is Not the Business',
+    description:
+      'AI can keep improving while AI companies, prices and jobs reset. What the dot-com bust teaches, and what it means for developers and businesses.',
+    h1: 'The AI bubble: the technology is not the business',
+    kind: 'blog',
+    primaryKeyword: 'AI bubble',
+    secondaryKeywords: ['AI bubble burst', 'AI token costs', 'AI wrapper companies', 'dot-com bubble vs AI'],
+    published: '2026-11-13',
+    updated: '2026-11-13',
+    parent: '/blog',
+    author: 'vibhanshu',
   },
 
   // Company
