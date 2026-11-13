@@ -21,6 +21,7 @@ export function GET() {
     ...section('AI', pages.filter((p) => p.path === '/ai' || p.path.startsWith('/ai/'))),
     ...section('Work', pages.filter((p) => p.path === '/work' || p.path.startsWith('/work/'))),
     ...section('Guides', pages.filter((p) => p.path === '/guides' || p.path.startsWith('/guides/'))),
+    ...section('Blog', pages.filter((p) => p.path === '/blog' || p.path.startsWith('/blog/'))),
     ...section('Company', pages.filter((p) => ['/about', '/process', '/faq', '/contact'].includes(p.path))),
     '## Founders',
     ...founderList.map((f) => `- ${f.name}, ${f.role}: ${f.url}`),

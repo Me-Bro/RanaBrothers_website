@@ -21,6 +21,7 @@ const PAGE_TYPE: Record<PageKind, string> = {
   service: 'WebPage',
   'case-study': 'WebPage',
   guide: 'WebPage',
+  blog: 'WebPage',
   about: 'AboutPage',
   process: 'WebPage',
   faq: 'WebPage',
@@ -104,7 +105,7 @@ export function articleNode(path: string): JsonLdNode {
   if (!page.author) throw new Error(`articleNode: "${path}" needs an author in the registry`);
   const author = founders[page.author];
   return {
-    '@type': page.kind === 'guide' ? 'BlogPosting' : 'Article',
+    '@type': page.kind === 'guide' || page.kind === 'blog' ? 'BlogPosting' : 'Article',
     '@id': `${absoluteUrl(path)}#article`,
     headline: page.h1,
     description: page.description,

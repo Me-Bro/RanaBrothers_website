@@ -48,9 +48,15 @@ describe('structured data', () => {
       const nodes = [organizationNode(), websiteNode(), webPageNode(p.path)];
       if (p.path !== '/') nodes.push(breadcrumbNode(p.path));
       if (p.kind === 'service') nodes.push(serviceNode(p.path));
-      if (p.kind === 'guide' || p.kind === 'case-study') nodes.push(articleNode(p.path));
+      if (p.kind === 'guide' || p.kind === 'blog' || p.kind === 'case-study') nodes.push(articleNode(p.path));
       expect(unresolvedRefs(graph(...nodes)), p.path).toEqual([]);
     }
+  });
+
+  it('marks blog posts up as BlogPosting', () => {
+    const posts = pages.filter((p) => p.kind === 'blog');
+    expect(posts.length).toBeGreaterThan(0);
+    for (const p of posts) expect(articleNode(p.path), p.path).toMatchObject({ '@type': 'BlogPosting' });
   });
 
   it('never self-rates (no AggregateRating or Review)', () => {

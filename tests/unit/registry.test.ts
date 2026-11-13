@@ -56,8 +56,17 @@ describe('page registry', () => {
     }
   });
 
-  it('gives guides and case studies an author', () => {
-    for (const p of pages) if (p.kind === 'guide' || p.kind === 'case-study') expect(p.author, p.path).toBeDefined();
+  it('gives guides, blog posts and case studies an author', () => {
+    for (const p of pages) if (p.kind === 'guide' || p.kind === 'blog' || p.kind === 'case-study') expect(p.author, p.path).toBeDefined();
+  });
+
+  it('hangs every blog post off /blog', () => {
+    const posts = pages.filter((p) => p.kind === 'blog');
+    expect(posts.length).toBeGreaterThan(0);
+    for (const p of posts) {
+      expect(p.parent, p.path).toBe('/blog');
+      expect(p.path.startsWith('/blog/'), p.path).toBe(true);
+    }
   });
 
   it('throws on unknown paths', () => {
